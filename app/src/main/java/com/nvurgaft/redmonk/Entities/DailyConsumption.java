@@ -5,6 +5,7 @@ package com.nvurgaft.redmonk.Entities;
  */
 public class DailyConsumption {
 
+    private String name;
     private long date;
     private int calories;
     private int carbs;
@@ -12,6 +13,14 @@ public class DailyConsumption {
     private int fats;
 
     public DailyConsumption() {
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public int getCalories() {
@@ -58,6 +67,7 @@ public class DailyConsumption {
     public String toString() {
         return "DailyConsumption{" +
                 "calories=" + calories +
+                ", name='" + name + '\'' +
                 ", date=" + date +
                 ", carbs=" + carbs +
                 ", proteins=" + proteins +
