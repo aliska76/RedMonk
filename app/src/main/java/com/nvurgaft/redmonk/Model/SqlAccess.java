@@ -99,7 +99,7 @@ public class SqlAccess extends SQLiteOpenHelper {
      * Inserts a new user
      *
      * @param db
-     * @return
+     * @return the id of the inserted row or -1 if error
      */
     public long insertNewUser(SQLiteDatabase db, User newUser) {
 
@@ -116,7 +116,7 @@ public class SqlAccess extends SQLiteOpenHelper {
      *
      * @param db
      * @param name
-     * @return
+     * @return the requested user object (if exists)
      */
     public User getUser(SQLiteDatabase db, String name) {
         Cursor cursor = db.rawQuery("SELECT * FROM " + USER_TABLE + " WHERE " + USER_NAME + " = '" + name + "';", null);
@@ -128,17 +128,18 @@ public class SqlAccess extends SQLiteOpenHelper {
             user.setGender(cursor.getString(1));
             user.setHeight(cursor.getInt(2));
             user.setWeight(cursor.getInt(3));
+            cursor.close();
             return user;
-        } else {
-            return null;
         }
+        cursor.close();
+        return null;
     }
 
     /**
      * Gets all users
      *
      * @param db
-     * @return
+     * @return all users in database
      */
     public List<User> getAllUsers(SQLiteDatabase db) {
         Cursor cursor = db.rawQuery("SELECT * FROM " + USER_TABLE + ";", null);
@@ -152,6 +153,7 @@ public class SqlAccess extends SQLiteOpenHelper {
             user.setWeight(cursor.getInt(3));
             users.add(user);
         }
+        cursor.close();
         return users;
     }
 
@@ -160,9 +162,10 @@ public class SqlAccess extends SQLiteOpenHelper {
      *
      * @param db
      * @param name
+     * @return returns number of rows removed
      */
     public int removeUser(SQLiteDatabase db, String name) {
-        return db.delete(USER_TABLE, USER_NAME + " = " + name, null);
+        return db.delete(USER_TABLE, USER_NAME + " = '" + name + "'", null);
     }
 
     /************************************
@@ -174,7 +177,7 @@ public class SqlAccess extends SQLiteOpenHelper {
      *
      * @param db
      * @param dailyConsumption
-     * @returns
+     * @returns the inserted row id, or -1 if error
      */
     public long insertDailyConsumption(SQLiteDatabase db, DailyConsumption dailyConsumption) {
 
@@ -193,11 +196,11 @@ public class SqlAccess extends SQLiteOpenHelper {
      * @param db
      * @param user
      * @param date
-     * @return
+     * @return return the daily consumption for a user for a specific date
      */
     public DailyConsumption getDailyConsumptionForDate(SQLiteDatabase db, String user, String date) {
         Cursor cursor = db.rawQuery("SELECT * FROM " + DAILY_CONSUMPTION_TABLE + " WHERE " + USER_NAME + " = '" + user + "' AND " + CDATE + " = '" + date + "';", null);
-        if (cursor.getCount()>0) {
+        if (cursor.getCount() > 0) {
             cursor.moveToFirst();
             DailyConsumption dailyConsumption = new DailyConsumption();
             dailyConsumption.setName(cursor.getString(0));
@@ -206,10 +209,11 @@ public class SqlAccess extends SQLiteOpenHelper {
             dailyConsumption.setCarbs(cursor.getInt(3));
             dailyConsumption.setProteins(cursor.getInt(4));
             dailyConsumption.setFats(cursor.getInt(5));
+            cursor.close();
             return dailyConsumption;
-        } else {
-            return null;
         }
+        cursor.close();
+        return null;
     }
 
     /**
@@ -217,7 +221,7 @@ public class SqlAccess extends SQLiteOpenHelper {
      *
      * @param db
      * @param user
-     * @return
+     * @return all daily consumption for a user
      */
     public List<DailyConsumption> getAllDailyConsumption(SQLiteDatabase db, String user) {
 
@@ -233,6 +237,7 @@ public class SqlAccess extends SQLiteOpenHelper {
             dailyConsumption.setFats(cursor.getInt(5));
             list.add(dailyConsumption);
         }
+        cursor.close();
         return list;
     }
 
@@ -245,10 +250,18 @@ public class SqlAccess extends SQLiteOpenHelper {
      *
      * @param db
      * @param newContact
-     * @returns
+     * @returns the inserted row id, or -1 if error
      */
     public long insertNewContact(SQLiteDatabase db, Contact newContact) {
-        return -1;
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(USER_NAME, newContact.getUser());
+        contentValues.put(CONTACT_NAME, newContact.getContactName());
+        contentValues.put(CONTACT_ROLE, newContact.getContactRole());
+        contentValues.put(FIRST_NUMBER, newContact.getFirstNumber());
+        contentValues.put(SECOND_NUMBER, newContact.getSecondNumber());
+        contentValues.put(THIRD_NUMBER, newContact.getThirdNumber());
+        return db.insert(CONTACTS_TABLE, null, contentValues);
     }
 
     /**
@@ -256,9 +269,18 @@ public class SqlAccess extends SQLiteOpenHelper {
      *
      * @param db
      * @param contact
+     * @return number of rows updated
      */
-    public void updateContact(SQLiteDatabase db, Contact contact) {
+    public int updateContact(SQLiteDatabase db, Contact contact) {
 
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(USER_NAME, contact.getUser());
+        contentValues.put(CONTACT_NAME, contact.getContactName());
+        contentValues.put(CONTACT_ROLE, contact.getContactRole());
+        contentValues.put(FIRST_NUMBER, contact.getFirstNumber());
+        contentValues.put(SECOND_NUMBER, contact.getSecondNumber());
+        contentValues.put(THIRD_NUMBER, contact.getThirdNumber());
+        return db.update(CONTACTS_TABLE, contentValues, CONTACT_NAME + " = '" + contact.getContactName() + "'", null);
     }
 
     /**
@@ -266,9 +288,22 @@ public class SqlAccess extends SQLiteOpenHelper {
      *
      * @param db
      * @param user
-     * @return
+     * @return a list of all contacts for a user
      */
-    public List<Contact> getUserContacts(SQLiteDatabase db, String user) {
+    public ArrayList<Contact> getUserContacts(SQLiteDatabase db, String user) {
+        Cursor cursor = db.rawQuery("SELECT * FROM " + CONTACTS_TABLE + " WHERE " + USER_NAME + " = '" + user + "';", null);
+        ArrayList<Contact> contacts = new ArrayList<>();
+        while (cursor.moveToNext()) {
+            Contact contact = new Contact();
+            contact.setUser(cursor.getString(0));
+            contact.setContactName(cursor.getString(1));
+            contact.setContactRole(cursor.getString(2));
+            contact.setFirstNumber(cursor.getString(3));
+            contact.setSecondNumber(cursor.getString(4));
+            contact.setThirdNumber(cursor.getString(5));
+            contacts.add(contact);
+        }
+        cursor.close();
         return null;
     }
 
@@ -277,9 +312,10 @@ public class SqlAccess extends SQLiteOpenHelper {
      *
      * @param db
      * @param contactName
+     * @return number of rows deleted
      */
-    public void removeContactByName(SQLiteDatabase db, String contactName) {
-
+    public int removeContactByName(SQLiteDatabase db, String contactName) {
+        return db.delete(CONTACTS_TABLE, CONTACT_NAME + " = '" + contactName + "'", null);
     }
 
     /**
@@ -287,10 +323,10 @@ public class SqlAccess extends SQLiteOpenHelper {
      *
      * @param db
      * @param user
+     * @return number of rows deleted
      */
-    public void removeAllContactsForuser(SQLiteDatabase db, String user) {
-
+    public int removeAllContactsForUser(SQLiteDatabase db, String user) {
+        return db.delete(CONTACTS_TABLE, USER_NAME + " = '" + user + "'", null);
     }
-
 
 }
