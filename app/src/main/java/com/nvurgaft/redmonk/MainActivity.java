@@ -1,6 +1,8 @@
 package com.nvurgaft.redmonk;
 
+import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -11,7 +13,7 @@ import android.widget.Toast;
 
 
 public class MainActivity extends ActionBarActivity
-        implements NavigationDrawerCallbacks {
+        implements NavigationDrawerCallbacks, OnFragmentInteractionListener {
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -73,7 +75,8 @@ public class MainActivity extends ActionBarActivity
 
         switch (id) {
             case R.id.action_settings:
-
+                Intent intent = new Intent(this, SettingsActivity.class);
+                startActivity(intent);
                 return true;
             case R.id.action_exit:
                 // TODO: call a user prompt to confirm exit
@@ -82,5 +85,9 @@ public class MainActivity extends ActionBarActivity
 
         return super.onOptionsItemSelected(item);
     }
-    
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
+    }
 }

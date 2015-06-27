@@ -2,6 +2,7 @@ package com.nvurgaft.redmonk;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
@@ -16,8 +17,8 @@ import android.graphics.Shader;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -26,6 +27,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.nvurgaft.redmonk.Fragments.ContactsFragment;
+import com.nvurgaft.redmonk.Fragments.DailyConsumptionFragment;
+import com.nvurgaft.redmonk.Fragments.RemindersFragment;
+import com.nvurgaft.redmonk.Fragments.StatusFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -114,6 +120,31 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
     @Override
     public void onNavigationDrawerItemSelected(int position) {
         selectItem(position);
+
+        Fragment fragment;
+        FragmentManager fragmentManager = getFragmentManager();
+        switch (position) {
+            case 0:
+                fragment = new StatusFragment();
+                break;
+            case 1:
+                fragment = new DailyConsumptionFragment();
+                break;
+            case 2:
+                fragment = new RemindersFragment();
+                break;
+            case 3:
+                fragment = new ContactsFragment();
+                break;
+            default:
+                fragment = null;
+        }
+
+        if (fragment!=null) {
+            fragmentManager.beginTransaction()
+                    .replace(R.id.container, fragment)
+                    .commit();
+        }
     }
 
     public List<NavigationItem> getMenu() {
