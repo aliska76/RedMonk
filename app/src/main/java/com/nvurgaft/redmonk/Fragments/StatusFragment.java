@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import com.nvurgaft.redmonk.OnFragmentInteractionListener;
 import com.nvurgaft.redmonk.R;
@@ -34,6 +36,7 @@ public class StatusFragment extends Fragment implements View.OnClickListener {
 
 
     private Button saveButton;
+    private RadioGroup radioGroup;
 
     /**
      * Use this factory method to create a new instance of
@@ -75,6 +78,9 @@ public class StatusFragment extends Fragment implements View.OnClickListener {
         saveButton = (Button) view.findViewById(R.id.fragment_status_save_button);
         saveButton.setOnClickListener(this);
 
+        radioGroup = (RadioGroup) view.findViewById(R.id.genderRadioGroup);
+        radioGroup.setOnClickListener(this);
+
         // Inflate the layout for this fragment
         return view;
     }
@@ -108,13 +114,16 @@ public class StatusFragment extends Fragment implements View.OnClickListener {
 
         switch(view.getId()) {
             case R.id.fragment_status_save_button:
-
+                // TODO: save
+                Toast.makeText(getActivity(), "Save", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.radioMale:
-
+                // TODO: male
+                Toast.makeText(getActivity(), "Radio Male", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.radioFemale:
-
+                // TODO: female
+                Toast.makeText(getActivity(), "Radio Female", Toast.LENGTH_SHORT).show();
                 break;
             default:
 

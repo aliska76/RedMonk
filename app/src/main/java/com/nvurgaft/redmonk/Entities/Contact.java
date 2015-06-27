@@ -5,7 +5,6 @@ package com.nvurgaft.redmonk.Entities;
  */
 public class Contact {
 
-    private String user;
     private String contactName;
     private String contactRole;
     private String firstNumber;
@@ -55,19 +54,10 @@ public class Contact {
         this.thirdNumber = thirdNumber;
     }
 
-    public String getUser() {
-        return user;
-    }
-
-    public void setUser(String user) {
-        this.user = user;
-    }
-
     @Override
     public String toString() {
         return "Contact{" +
                 "contactName='" + contactName + '\'' +
-                ", user='" + user + '\'' +
                 ", contactRole='" + contactRole + '\'' +
                 ", firstNumber='" + firstNumber + '\'' +
                 ", secondNumber='" + secondNumber + '\'' +

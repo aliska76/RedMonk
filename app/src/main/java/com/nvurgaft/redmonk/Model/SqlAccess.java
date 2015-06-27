@@ -24,14 +24,14 @@ public class SqlAccess extends SQLiteOpenHelper {
     private static final String DAILY_CONSUMPTION_TABLE = "daily_consumption";
     private static final String CONTACTS_TABLE = "emergency_contacts";
 
-    private static final String USER_NAME = "name";
     private static final String USER_GENDER = "gender";
     private static final String USER_HEIGHT = "height";
     private static final String USER_WEIGHT = "weight";
+    private static final String USER_DIABETES_TYPE = "dtype";
 
-    private static final String CDATE = "date";
+    private static final String DATE = "date";
     private static final String CALORIES = "calories";
-    private static final String CARBS = "carbs";
+    private static final String CARBOHYDRATES = "carbs";
     private static final String PROTEINS = "proteins";
     private static final String FATS = "fats";
 
@@ -52,21 +52,21 @@ public class SqlAccess extends SQLiteOpenHelper {
         // create the users table
         db.execSQL("CREATE TABLE " + USER_TABLE + " (" +
                         "_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                        USER_NAME + " TEXT NOT NULL, " +
-                        USER_GENDER + " TEXT NOT NULL" +
-                        USER_HEIGHT + " INTEGER NOT NULL " +
-                        USER_WEIGHT + " INTEGER NOT NULL " +
+                        DATE + " TEXT NOT NULL," +
+                        USER_GENDER + " TEXT NOT NULL," +
+                        USER_HEIGHT + " INTEGER NOT NULL," +
+                        USER_WEIGHT + " INTEGER NOT NULL," +
+                        USER_DIABETES_TYPE + " INTEGER NOT NULL " +
                         ");"
         );
 
         // create the daily consumption table
         db.execSQL("CREATE TABLE " + DAILY_CONSUMPTION_TABLE + " (" +
                         "_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                        USER_NAME + " TEXT NOT NULL, " +
-                        CDATE + " TEXT NOT NULL, " +
-                        CALORIES + " INTEGER " +
-                        CARBS + " INTEGER " +
-                        PROTEINS + " INTEGER " +
+                        DATE + " TEXT NOT NULL, " +
+                        CALORIES + " INTEGER, " +
+                        CARBOHYDRATES + " INTEGER, " +
+                        PROTEINS + " INTEGER, " +
                         FATS + " INTEGER NOT NULL" +
                         ");"
         );
@@ -74,11 +74,10 @@ public class SqlAccess extends SQLiteOpenHelper {
         // create the contacts table
         db.execSQL("CREATE TABLE " + CONTACTS_TABLE + " (" +
                         "_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                        USER_NAME + " TEXT NOT NULL, " +
                         CONTACT_NAME + " TEXT NOT NULL, " +
-                        CONTACT_ROLE + " INTEGER " +
-                        FIRST_NUMBER + " INTEGER " +
-                        SECOND_NUMBER + " INTEGER " +
+                        CONTACT_ROLE + " INTEGER, " +
+                        FIRST_NUMBER + " INTEGER, " +
+                        SECOND_NUMBER + " INTEGER, " +
                         THIRD_NUMBER + " INTEGER" +
                         ");"
         );
@@ -99,35 +98,38 @@ public class SqlAccess extends SQLiteOpenHelper {
      * Inserts a new user
      *
      * @param db
+     * @param newUser
      * @return the id of the inserted row or -1 if error
      */
-    public long insertNewUser(SQLiteDatabase db, User newUser) {
+    public long insertNewUserLog(SQLiteDatabase db, User newUser) {
 
         ContentValues contentValues = new ContentValues();
-        contentValues.put(USER_NAME, newUser.getName());
+        contentValues.put(DATE, newUser.getDate());
         contentValues.put(USER_GENDER, newUser.getGender());
         contentValues.put(USER_HEIGHT, newUser.getHeight());
         contentValues.put(USER_WEIGHT, newUser.getWeight());
+        contentValues.put(USER_DIABETES_TYPE, newUser.getDiabetesType());
         return db.insert(USER_TABLE, null, contentValues);
     }
 
     /**
-     * Gets a user by him name
+     * Gets a user log by date
      *
      * @param db
-     * @param name
+     * @param date
      * @return the requested user object (if exists)
      */
-    public User getUser(SQLiteDatabase db, String name) {
-        Cursor cursor = db.rawQuery("SELECT * FROM " + USER_TABLE + " WHERE " + USER_NAME + " = '" + name + "';", null);
+    public User getUserByDate(SQLiteDatabase db, String date) {
+        Cursor cursor = db.rawQuery("SELECT * FROM " + USER_TABLE + " WHERE " + date + " = '" + date + "';", null);
 
         if (cursor.getCount() > 0) {
             cursor.moveToFirst();
             User user = new User();
-            user.setName(cursor.getString(0));
+            user.setDate(cursor.getString(0));
             user.setGender(cursor.getString(1));
             user.setHeight(cursor.getInt(2));
             user.setWeight(cursor.getInt(3));
+            user.setDiabetesType(cursor.getString(4));
             cursor.close();
             return user;
         }
@@ -141,31 +143,21 @@ public class SqlAccess extends SQLiteOpenHelper {
      * @param db
      * @return all users in database
      */
-    public List<User> getAllUsers(SQLiteDatabase db) {
+    public List<User> getAllUserLog(SQLiteDatabase db) {
         Cursor cursor = db.rawQuery("SELECT * FROM " + USER_TABLE + ";", null);
 
         ArrayList<User> users = new ArrayList<>();
         while (cursor.moveToNext()) {
             User user = new User();
-            user.setName(cursor.getString(0));
+            user.setDate(cursor.getString(0));
             user.setGender(cursor.getString(1));
             user.setHeight(cursor.getInt(2));
             user.setWeight(cursor.getInt(3));
+            user.setDiabetesType(cursor.getString(4));
             users.add(user);
         }
         cursor.close();
         return users;
-    }
-
-    /**
-     * Removes a user by his name
-     *
-     * @param db
-     * @param name
-     * @return returns number of rows removed
-     */
-    public int removeUser(SQLiteDatabase db, String name) {
-        return db.delete(USER_TABLE, USER_NAME + " = '" + name + "'", null);
     }
 
     /************************************
@@ -182,9 +174,9 @@ public class SqlAccess extends SQLiteOpenHelper {
     public long insertDailyConsumption(SQLiteDatabase db, DailyConsumption dailyConsumption) {
 
         ContentValues contentValues = new ContentValues();
-        contentValues.put(CDATE, dailyConsumption.getDate());
+        contentValues.put(DATE, dailyConsumption.getDate());
         contentValues.put(CALORIES, dailyConsumption.getCalories());
-        contentValues.put(CARBS, dailyConsumption.getCarbs());
+        contentValues.put(CARBOHYDRATES, dailyConsumption.getCarbohydrates());
         contentValues.put(PROTEINS, dailyConsumption.getProteins());
         contentValues.put(FATS, dailyConsumption.getFats());
         return db.insert(DAILY_CONSUMPTION_TABLE, null, contentValues);
@@ -194,21 +186,19 @@ public class SqlAccess extends SQLiteOpenHelper {
      * Returns the daily consumption for a provided date for a user
      *
      * @param db
-     * @param user
      * @param date
      * @return return the daily consumption for a user for a specific date
      */
-    public DailyConsumption getDailyConsumptionForDate(SQLiteDatabase db, String user, String date) {
-        Cursor cursor = db.rawQuery("SELECT * FROM " + DAILY_CONSUMPTION_TABLE + " WHERE " + USER_NAME + " = '" + user + "' AND " + CDATE + " = '" + date + "';", null);
+    public DailyConsumption getDailyConsumptionForDate(SQLiteDatabase db, String date) {
+        Cursor cursor = db.rawQuery("SELECT * FROM " + DAILY_CONSUMPTION_TABLE + " WHERE " + DATE + " = '" + date + "';", null);
         if (cursor.getCount() > 0) {
             cursor.moveToFirst();
             DailyConsumption dailyConsumption = new DailyConsumption();
-            dailyConsumption.setName(cursor.getString(0));
-            dailyConsumption.setDate(cursor.getInt(1));
-            dailyConsumption.setCalories(cursor.getInt(2));
-            dailyConsumption.setCarbs(cursor.getInt(3));
-            dailyConsumption.setProteins(cursor.getInt(4));
-            dailyConsumption.setFats(cursor.getInt(5));
+            dailyConsumption.setDate(cursor.getInt(0));
+            dailyConsumption.setCalories(cursor.getInt(1));
+            dailyConsumption.setCarbohydrates(cursor.getInt(2));
+            dailyConsumption.setProteins(cursor.getInt(3));
+            dailyConsumption.setFats(cursor.getInt(4));
             cursor.close();
             return dailyConsumption;
         }
@@ -220,21 +210,19 @@ public class SqlAccess extends SQLiteOpenHelper {
      * Returns all daily consumption dates for a user
      *
      * @param db
-     * @param user
      * @return all daily consumption for a user
      */
-    public List<DailyConsumption> getAllDailyConsumption(SQLiteDatabase db, String user) {
+    public List<DailyConsumption> getAllDailyConsumptions(SQLiteDatabase db) {
 
-        Cursor cursor = db.rawQuery("SELECT * FROM " + DAILY_CONSUMPTION_TABLE + " WHERE " + USER_NAME + " = '" + user + "';", null);
+        Cursor cursor = db.rawQuery("SELECT * FROM " + DAILY_CONSUMPTION_TABLE + ";", null);
         ArrayList<DailyConsumption> list = new ArrayList<>();
         while (cursor.moveToNext()) {
             DailyConsumption dailyConsumption = new DailyConsumption();
-            dailyConsumption.setName(cursor.getString(0));
-            dailyConsumption.setDate(cursor.getInt(1));
-            dailyConsumption.setCalories(cursor.getInt(2));
-            dailyConsumption.setCarbs(cursor.getInt(3));
-            dailyConsumption.setProteins(cursor.getInt(4));
-            dailyConsumption.setFats(cursor.getInt(5));
+            dailyConsumption.setDate(cursor.getInt(0));
+            dailyConsumption.setCalories(cursor.getInt(1));
+            dailyConsumption.setCarbohydrates(cursor.getInt(2));
+            dailyConsumption.setProteins(cursor.getInt(3));
+            dailyConsumption.setFats(cursor.getInt(4));
             list.add(dailyConsumption);
         }
         cursor.close();
@@ -255,7 +243,6 @@ public class SqlAccess extends SQLiteOpenHelper {
     public long insertNewContact(SQLiteDatabase db, Contact newContact) {
 
         ContentValues contentValues = new ContentValues();
-        contentValues.put(USER_NAME, newContact.getUser());
         contentValues.put(CONTACT_NAME, newContact.getContactName());
         contentValues.put(CONTACT_ROLE, newContact.getContactRole());
         contentValues.put(FIRST_NUMBER, newContact.getFirstNumber());
@@ -274,7 +261,6 @@ public class SqlAccess extends SQLiteOpenHelper {
     public int updateContact(SQLiteDatabase db, Contact contact) {
 
         ContentValues contentValues = new ContentValues();
-        contentValues.put(USER_NAME, contact.getUser());
         contentValues.put(CONTACT_NAME, contact.getContactName());
         contentValues.put(CONTACT_ROLE, contact.getContactRole());
         contentValues.put(FIRST_NUMBER, contact.getFirstNumber());
@@ -287,20 +273,18 @@ public class SqlAccess extends SQLiteOpenHelper {
      * Returns all contacts for a user name
      *
      * @param db
-     * @param user
      * @return a list of all contacts for a user
      */
-    public ArrayList<Contact> getUserContacts(SQLiteDatabase db, String user) {
-        Cursor cursor = db.rawQuery("SELECT * FROM " + CONTACTS_TABLE + " WHERE " + USER_NAME + " = '" + user + "';", null);
+    public ArrayList<Contact> getUserContacts(SQLiteDatabase db) {
+        Cursor cursor = db.rawQuery("SELECT * FROM " + CONTACTS_TABLE + ";", null);
         ArrayList<Contact> contacts = new ArrayList<>();
         while (cursor.moveToNext()) {
             Contact contact = new Contact();
-            contact.setUser(cursor.getString(0));
-            contact.setContactName(cursor.getString(1));
-            contact.setContactRole(cursor.getString(2));
-            contact.setFirstNumber(cursor.getString(3));
-            contact.setSecondNumber(cursor.getString(4));
-            contact.setThirdNumber(cursor.getString(5));
+            contact.setContactName(cursor.getString(0));
+            contact.setContactRole(cursor.getString(1));
+            contact.setFirstNumber(cursor.getString(2));
+            contact.setSecondNumber(cursor.getString(3));
+            contact.setThirdNumber(cursor.getString(4));
             contacts.add(contact);
         }
         cursor.close();
@@ -322,11 +306,10 @@ public class SqlAccess extends SQLiteOpenHelper {
      * Removes all contacts for the user
      *
      * @param db
-     * @param user
      * @return number of rows deleted
      */
-    public int removeAllContactsForUser(SQLiteDatabase db, String user) {
-        return db.delete(CONTACTS_TABLE, USER_NAME + " = '" + user + "'", null);
+    public int removeAllContacts(SQLiteDatabase db) {
+        return db.delete(CONTACTS_TABLE, "1", null);
     }
 
 }

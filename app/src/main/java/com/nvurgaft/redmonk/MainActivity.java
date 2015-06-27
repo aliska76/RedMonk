@@ -1,6 +1,7 @@
 package com.nvurgaft.redmonk;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ public class MainActivity extends ActionBarActivity
      */
     private NavigationDrawerFragment mNavigationDrawerFragment;
     private Toolbar mToolbar;
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,13 +30,17 @@ public class MainActivity extends ActionBarActivity
         mToolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
         setSupportActionBar(mToolbar);
 
-        mNavigationDrawerFragment = (NavigationDrawerFragment)
-                getFragmentManager().findFragmentById(R.id.fragment_drawer);
+        sharedPreferences = getSharedPreferences(Values.PREFS, MODE_PRIVATE);
+        String username = sharedPreferences.getString("username", "anon");
+        String email = sharedPreferences.getString("email", "anon@gmail.com");
+
+        mNavigationDrawerFragment = (NavigationDrawerFragment) getFragmentManager().findFragmentById(R.id.fragment_drawer);
 
         // Set up the drawer.
         mNavigationDrawerFragment.setup(R.id.fragment_drawer, (DrawerLayout) findViewById(R.id.drawer), mToolbar);
         // populate the navigation drawer
-        mNavigationDrawerFragment.setUserData("John Doe", "johndoe@doe.com", BitmapFactory.decodeResource(getResources(), R.drawable.avatar));
+        mNavigationDrawerFragment.setUserData(username, email, BitmapFactory.decodeResource(getResources(), R.mipmap.avatar));
+
     }
 
     @Override
@@ -80,6 +86,9 @@ public class MainActivity extends ActionBarActivity
                 return true;
             case R.id.action_exit:
                 // TODO: call a user prompt to confirm exit
+
+                finish();
+
                 return true;
         }
 

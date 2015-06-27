@@ -5,10 +5,11 @@ package com.nvurgaft.redmonk.Entities;
  */
 public class User {
 
-    private String name;
+    private String date;
     private String gender;
     private int height;
     private int weight;
+    private String diabetesType;
 
     public User() {
     }
@@ -29,12 +30,12 @@ public class User {
         this.height = height;
     }
 
-    public String getName() {
-        return name;
+    public String getDate() {
+        return date;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setDate(String name) {
+        this.date = name;
     }
 
     public int getWeight() {
@@ -45,13 +46,22 @@ public class User {
         this.weight = weight;
     }
 
+    public String getDiabetesType() {
+        return diabetesType;
+    }
+
+    public void setDiabetesType(String diabetesType) {
+        this.diabetesType = diabetesType;
+    }
+
     @Override
     public String toString() {
         return "User{" +
-                "gender='" + gender + '\'' +
-                ", name='" + name + '\'' +
+                "date='" + date + '\'' +
+                ", gender='" + gender + '\'' +
                 ", height=" + height +
                 ", weight=" + weight +
+                ", diabetesType=" + diabetesType +
                 '}';
     }
 }
