@@ -9,6 +9,15 @@
     <!-- Status Fragment -->
     <string name="status_fragment_title">Status</string>
 
+    <string name="status_fragment_name">Your Name:</string>
+    <string name="status_fragment_gender">Gender:</string>
+    <string name="status_fragment_gender_male">Male</string>
+    <string name="status_fragment_gender_female">Female</string>
+    <string name="status_fragment_height">Your Height (in centimeters):</string>
+    <string name="status_fragment_weight">Your Weight (in centimeters):</string>
+
+    <string name="save_button">Save</string>
+
     <!-- Contacts Fragment -->
     <string name="contacts_fragment_title">Contacts</string>
 
@@ -18,6 +27,11 @@
     <!-- Reminders Fragment -->
     <string name="reminders_fragment_title">Reminders</string>
 
+    <!-- Drawer Menu Items -->
+    <string name="stats_drawer_item">My Stats</string>
+    <string name="daily_consumption_drawer_item">Daily consumption</string>
+    <string name="reminders_drawer_item">Reminders</string>
+    <string name="contacts_drawer_item">Contacts</string>
 
     <!-- Options Menu -->
     <string name="action_settings">Settings</string>

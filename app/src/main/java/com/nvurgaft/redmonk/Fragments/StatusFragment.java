@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.nvurgaft.redmonk.OnFragmentInteractionListener;
 import com.nvurgaft.redmonk.R;
@@ -19,7 +20,7 @@ import com.nvurgaft.redmonk.R;
  * Use the {@link StatusFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class StatusFragment extends Fragment {
+public class StatusFragment extends Fragment implements View.OnClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -30,6 +31,9 @@ public class StatusFragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+
+
+    private Button saveButton;
 
     /**
      * Use this factory method to create a new instance of
@@ -65,8 +69,14 @@ public class StatusFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        View view = inflater.inflate(R.layout.fragment_status, container, false);
+
+        saveButton = (Button) view.findViewById(R.id.fragment_status_save_button);
+        saveButton.setOnClickListener(this);
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_status, container, false);
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -91,6 +101,24 @@ public class StatusFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onClick(View view) {
+
+        switch(view.getId()) {
+            case R.id.fragment_status_save_button:
+
+                break;
+            case R.id.radioMale:
+
+                break;
+            case R.id.radioFemale:
+
+                break;
+            default:
+
+        }
     }
 
 }
