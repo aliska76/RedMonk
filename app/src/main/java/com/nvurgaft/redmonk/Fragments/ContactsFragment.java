@@ -4,12 +4,17 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Toast;
 
+import com.nvurgaft.redmonk.Adapters.ContactsAdapter;
 import com.nvurgaft.redmonk.OnFragmentInteractionListener;
 import com.nvurgaft.redmonk.R;
+import com.nvurgaft.redmonk.Values;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -19,7 +24,7 @@ import com.nvurgaft.redmonk.R;
  * Use the {@link ContactsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ContactsFragment extends Fragment {
+public class ContactsFragment extends Fragment implements View.OnClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -30,6 +35,9 @@ public class ContactsFragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+
+    private ContactsAdapter contactsAdapter;
+    private Button newContactButton;
 
     /**
      * Use this factory method to create a new instance of
@@ -66,7 +74,12 @@ public class ContactsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_contacts, container, false);
+        View view = inflater.inflate(R.layout.fragment_contacts, container, false);
+
+        newContactButton = (Button) view.findViewById(R.id.newContactButton);
+        newContactButton.setOnClickListener(this);
+        
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -93,4 +106,15 @@ public class ContactsFragment extends Fragment {
         mListener = null;
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.newContactButton:
+                // TODO: new contact
+                Toast.makeText(getActivity(), "New Contact", Toast.LENGTH_SHORT).show();
+                break;
+            default:
+                Log.d(Values.LOG, "Invalid value selected");
+        }
+    }
 }

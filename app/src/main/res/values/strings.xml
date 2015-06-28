@@ -20,6 +20,7 @@
 
     <!-- Contacts Fragment -->
     <string name="contacts_fragment_title">Contacts</string>
+    <string name="contacts_fragment_new_contact">New Contact</string>
 
     <!-- Daily Reminder Fragment -->
     <string name="daily_consumption_fragment_title">Daily Consumption</string>

@@ -24,26 +24,26 @@ public class SqlAccess extends SQLiteOpenHelper {
     private static final String DAILY_CONSUMPTION_TABLE = "daily_consumption";
     private static final String CONTACTS_TABLE = "emergency_contacts";
 
-    private static final String USER_GENDER = "gender";
-    private static final String USER_HEIGHT = "height";
-    private static final String USER_WEIGHT = "weight";
-    private static final String USER_DIABETES_TYPE = "dtype";
+    private static final String GENDER = "gender";
+    private static final String HEIGHT = "height";
+    private static final String WEIGHT = "weight";
+    private static final String DIABETES_TYPE = "diabetes_type";
 
     private static final String DATE = "date";
     private static final String CALORIES = "calories";
-    private static final String CARBOHYDRATES = "carbs";
+    private static final String CARBOHYDRATES = "carbohydrates";
     private static final String PROTEINS = "proteins";
     private static final String FATS = "fats";
 
-    private static final String CONTACT_NAME = "";
-    private static final String CONTACT_ROLE = "";
-    private static final String FIRST_NUMBER = "";
-    private static final String SECOND_NUMBER = "";
-    private static final String THIRD_NUMBER = "";
+    private static final String CONTACT_NAME = "contact_name";
+    private static final String CONTACT_ROLE = "contact_role";
+    private static final String FIRST_NUMBER = "first_number";
+    private static final String SECOND_NUMBER = "second_number";
+    private static final String THIRD_NUMBER = "third_number";
 
 
-    public SqlAccess(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
-        super(context, DATABASE_NAME, factory, DATABASE_VERSION);
+    public SqlAccess(Context context) {
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     @Override
@@ -53,10 +53,10 @@ public class SqlAccess extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE " + USER_TABLE + " (" +
                         "_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                         DATE + " TEXT NOT NULL," +
-                        USER_GENDER + " TEXT NOT NULL," +
-                        USER_HEIGHT + " INTEGER NOT NULL," +
-                        USER_WEIGHT + " INTEGER NOT NULL," +
-                        USER_DIABETES_TYPE + " INTEGER NOT NULL " +
+                        GENDER + " TEXT NOT NULL," +
+                        HEIGHT + " INTEGER NOT NULL," +
+                        WEIGHT + " INTEGER NOT NULL," +
+                        DIABETES_TYPE + " INTEGER NOT NULL " +
                         ");"
         );
 
@@ -105,10 +105,10 @@ public class SqlAccess extends SQLiteOpenHelper {
 
         ContentValues contentValues = new ContentValues();
         contentValues.put(DATE, newUser.getDate());
-        contentValues.put(USER_GENDER, newUser.getGender());
-        contentValues.put(USER_HEIGHT, newUser.getHeight());
-        contentValues.put(USER_WEIGHT, newUser.getWeight());
-        contentValues.put(USER_DIABETES_TYPE, newUser.getDiabetesType());
+        contentValues.put(GENDER, newUser.getGender());
+        contentValues.put(HEIGHT, newUser.getHeight());
+        contentValues.put(WEIGHT, newUser.getWeight());
+        contentValues.put(DIABETES_TYPE, newUser.getDiabetesType());
         return db.insert(USER_TABLE, null, contentValues);
     }
 
@@ -143,7 +143,7 @@ public class SqlAccess extends SQLiteOpenHelper {
      * @param db
      * @return all users in database
      */
-    public List<User> getAllUserLog(SQLiteDatabase db) {
+    public List<User> getAllUserLogs(SQLiteDatabase db) {
         Cursor cursor = db.rawQuery("SELECT * FROM " + USER_TABLE + ";", null);
 
         ArrayList<User> users = new ArrayList<>();
@@ -158,6 +158,15 @@ public class SqlAccess extends SQLiteOpenHelper {
         }
         cursor.close();
         return users;
+    }
+
+    /**
+     * Returns all user logs
+     * @param db
+     * @return a cursor of all user logs from the database
+     */
+    public Cursor getAllUserLogsCursor(SQLiteDatabase db) {
+       return db.rawQuery("SELECT * FROM " + USER_TABLE + ";", null);
     }
 
     /************************************
@@ -210,7 +219,7 @@ public class SqlAccess extends SQLiteOpenHelper {
      * Returns all daily consumption dates for a user
      *
      * @param db
-     * @return all daily consumption for a user
+     * @return a cursor of all daily consumption for a user
      */
     public List<DailyConsumption> getAllDailyConsumptions(SQLiteDatabase db) {
 
@@ -227,6 +236,15 @@ public class SqlAccess extends SQLiteOpenHelper {
         }
         cursor.close();
         return list;
+    }
+
+    /**
+     * Returns all daily consumptions
+     * @param db
+     * @return all daily consumptions from the database
+     */
+    public Cursor getAllDailyConsumptionsCursor(SQLiteDatabase db) {
+        return db.rawQuery("SELECT * FROM " + DAILY_CONSUMPTION_TABLE + ";", null);
     }
 
     /********************************
@@ -275,7 +293,7 @@ public class SqlAccess extends SQLiteOpenHelper {
      * @param db
      * @return a list of all contacts for a user
      */
-    public ArrayList<Contact> getUserContacts(SQLiteDatabase db) {
+    public ArrayList<Contact> getContacts(SQLiteDatabase db) {
         Cursor cursor = db.rawQuery("SELECT * FROM " + CONTACTS_TABLE + ";", null);
         ArrayList<Contact> contacts = new ArrayList<>();
         while (cursor.moveToNext()) {
@@ -289,6 +307,15 @@ public class SqlAccess extends SQLiteOpenHelper {
         }
         cursor.close();
         return null;
+    }
+
+    /**
+     * Returns a cursor of all contacts
+     * @param db
+     * @return cursor of all contacts in database
+     */
+    public Cursor getContactsCursor(SQLiteDatabase db) {
+        return db.rawQuery("SELECT * FROM " + CONTACTS_TABLE + ";", null);
     }
 
     /**

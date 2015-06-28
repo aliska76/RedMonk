@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 
 import com.nvurgaft.redmonk.OnFragmentInteractionListener;
 import com.nvurgaft.redmonk.R;
+import com.nvurgaft.redmonk.Values;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -126,7 +128,7 @@ public class StatusFragment extends Fragment implements View.OnClickListener {
                 Toast.makeText(getActivity(), "Radio Female", Toast.LENGTH_SHORT).show();
                 break;
             default:
-
+                Log.d(Values.LOG, "Invalid value selected");
         }
     }
 
