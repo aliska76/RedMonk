@@ -1,5 +1,6 @@
 package com.nvurgaft.redmonk;
 
+import android.app.DialogFragment;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
@@ -12,9 +13,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.nvurgaft.redmonk.Dialogs.EditContactDialog;
+
 
 public class MainActivity extends ActionBarActivity
-        implements NavigationDrawerCallbacks, OnFragmentInteractionListener {
+        implements NavigationDrawerCallbacks, OnFragmentInteractionListener, EditContactDialog.NoticeDialogListener {
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -40,7 +43,6 @@ public class MainActivity extends ActionBarActivity
         mNavigationDrawerFragment.setup(R.id.fragment_drawer, (DrawerLayout) findViewById(R.id.drawer), mToolbar);
         // populate the navigation drawer
         mNavigationDrawerFragment.setUserData(username, email, BitmapFactory.decodeResource(getResources(), R.mipmap.avatar));
-
     }
 
     @Override
@@ -88,7 +90,6 @@ public class MainActivity extends ActionBarActivity
                 // TODO: call a user prompt to confirm exit
 
                 finish();
-
                 return true;
         }
 
@@ -98,5 +99,15 @@ public class MainActivity extends ActionBarActivity
     @Override
     public void onFragmentInteraction(Uri uri) {
 
+    }
+
+    @Override
+    public void onDialogPositiveClick(DialogFragment dialog) {
+        Toast.makeText(this, "save", Toast.LENGTH_SHORT).show(); // TODO: remove after testing
+    }
+
+    @Override
+    public void onDialogNegativeClick(DialogFragment dialog) {
+        Toast.makeText(this, "cancel", Toast.LENGTH_SHORT).show(); // TODO: remove after testing
     }
 }

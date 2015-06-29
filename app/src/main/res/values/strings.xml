@@ -5,7 +5,6 @@
 
     <string name="hello_world">Hello world!</string>
 
-
     <!-- Status Fragment -->
     <string name="status_fragment_title">Status</string>
 
@@ -21,6 +20,16 @@
     <!-- Contacts Fragment -->
     <string name="contacts_fragment_title">Contacts</string>
     <string name="contacts_fragment_new_contact">New Contact</string>
+
+    <!-- Contacts Edit Dialog -->
+    <string name="contacts_dialog_title">Edit Contact</string>
+    <string name="contacts_dialog_contact_name">Contact name</string>
+    <string name="contacts_dialog_contact_role">Contact role</string>
+    <string name="contacts_dialog_1st_number">First number</string>
+    <string name="contacts_dialog_2nd_number">Second number</string>
+    <string name="contacts_dialog_3rd_number">Third number</string>
+    <string name="contacts_dialog_positive_button">Save</string>
+    <string name="contacts_dialog_negative_button">Cancel</string>
 
     <!-- Daily Reminder Fragment -->
     <string name="daily_consumption_fragment_title">Daily Consumption</string>

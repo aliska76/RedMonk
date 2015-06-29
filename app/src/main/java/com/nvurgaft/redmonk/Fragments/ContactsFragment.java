@@ -9,9 +9,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.nvurgaft.redmonk.Adapters.ContactsAdapter;
+import com.nvurgaft.redmonk.Dialogs.EditContactDialog;
 import com.nvurgaft.redmonk.OnFragmentInteractionListener;
 import com.nvurgaft.redmonk.R;
 import com.nvurgaft.redmonk.Values;
@@ -78,7 +78,7 @@ public class ContactsFragment extends Fragment implements View.OnClickListener {
 
         newContactButton = (Button) view.findViewById(R.id.newContactButton);
         newContactButton.setOnClickListener(this);
-        
+
         return view;
     }
 
@@ -110,8 +110,8 @@ public class ContactsFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.newContactButton:
-                // TODO: new contact
-                Toast.makeText(getActivity(), "New Contact", Toast.LENGTH_SHORT).show();
+                EditContactDialog editContactDialog = new EditContactDialog();
+                editContactDialog.show(getFragmentManager(), "EditContactDialog");
                 break;
             default:
                 Log.d(Values.LOG, "Invalid value selected");

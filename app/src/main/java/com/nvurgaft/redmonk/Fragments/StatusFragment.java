@@ -2,6 +2,8 @@ package com.nvurgaft.redmonk.Fragments;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,6 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
@@ -35,10 +39,12 @@ public class StatusFragment extends Fragment implements View.OnClickListener {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
-
+    private SharedPreferences sharedPreferences;
 
     private Button saveButton;
     private RadioGroup radioGroup;
+    private RadioButton maleRadioButton, femaleRadioButton;
+    private EditText nameEditText;
 
     /**
      * Use this factory method to create a new instance of
@@ -83,6 +89,14 @@ public class StatusFragment extends Fragment implements View.OnClickListener {
         radioGroup = (RadioGroup) view.findViewById(R.id.genderRadioGroup);
         radioGroup.setOnClickListener(this);
 
+        maleRadioButton = (RadioButton) view.findViewById(R.id.radioMale);
+        maleRadioButton.setOnClickListener(this);
+
+        femaleRadioButton = (RadioButton) view.findViewById(R.id.radioFemale);
+        femaleRadioButton.setOnClickListener(this);
+
+        nameEditText = (EditText) view.findViewById(R.id.nameEditText);
+
         // Inflate the layout for this fragment
         return view;
     }
@@ -118,6 +132,11 @@ public class StatusFragment extends Fragment implements View.OnClickListener {
             case R.id.fragment_status_save_button:
                 // TODO: save
                 Toast.makeText(getActivity(), "Save", Toast.LENGTH_SHORT).show();
+
+                sharedPreferences = getActivity().getSharedPreferences(Values.PREFS, Context.MODE_PRIVATE);
+                sharedPreferences.edit().putString("username", nameEditText.getText().toString());
+                sharedPreferences.edit().commit();
+
                 break;
             case R.id.radioMale:
                 // TODO: male
