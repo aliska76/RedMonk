@@ -14,10 +14,11 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.nvurgaft.redmonk.Dialogs.EditContactDialog;
+import com.nvurgaft.redmonk.Entities.Contact;
 
 
 public class MainActivity extends ActionBarActivity
-        implements NavigationDrawerCallbacks, OnFragmentInteractionListener, EditContactDialog.NoticeDialogListener {
+        implements NavigationDrawerCallbacks, OnFragmentInteractionListener, EditContactDialog.NoticeDialogListener  {
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -101,9 +102,10 @@ public class MainActivity extends ActionBarActivity
 
     }
 
+
     @Override
-    public void onDialogPositiveClick(DialogFragment dialog) {
-        Toast.makeText(this, "save", Toast.LENGTH_SHORT).show(); // TODO: remove after testing
+    public void onDialogPositiveClick(DialogFragment dialog, Contact contact) {
+        Toast.makeText(this, "save contact", Toast.LENGTH_SHORT).show(); // TODO: remove after testing
     }
 
     @Override

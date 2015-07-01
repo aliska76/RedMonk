@@ -117,4 +117,6 @@ public class ContactsFragment extends Fragment implements View.OnClickListener {
                 Log.d(Values.LOG, "Invalid value selected");
         }
     }
+
+
 }
