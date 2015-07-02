@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import com.nvurgaft.redmonk.Entities.Contact;
 import com.nvurgaft.redmonk.Entities.DailyConsumption;
+import com.nvurgaft.redmonk.Entities.Reminder;
 import com.nvurgaft.redmonk.Entities.User;
 
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ public class SqlAccess extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "RedMonk";
     private static final int DATABASE_VERSION = 1;
     private static final String USER_TABLE = "users";
+    private static final String REMINDER_TABLE = "reminders";
     private static final String DAILY_CONSUMPTION_TABLE = "daily_consumption";
     private static final String CONTACTS_TABLE = "emergency_contacts";
 
@@ -28,6 +30,10 @@ public class SqlAccess extends SQLiteOpenHelper {
     private static final String HEIGHT = "height";
     private static final String WEIGHT = "weight";
     private static final String DIABETES_TYPE = "diabetes_type";
+
+    private static final String RID = "r_id";
+    private static final String TODO = "todo";
+    private static final String RESOLVED = "resolve";
 
     private static final String DATE = "date";
     private static final String CALORIES = "calories";
@@ -57,6 +63,16 @@ public class SqlAccess extends SQLiteOpenHelper {
                         HEIGHT + " INTEGER NOT NULL," +
                         WEIGHT + " INTEGER NOT NULL," +
                         DIABETES_TYPE + " INTEGER NOT NULL " +
+                        ");"
+        );
+
+        // create the reminders table
+        db.execSQL("CREATE TABLE " + REMINDER_TABLE + " (" +
+                        "_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                        RID + " INTEGER NOT NULL," +
+                        DATE + " TEXT NOT NULL," +
+                        TODO + " TEXT," +
+                        RESOLVED + " TEXT" +
                         ");"
         );
 
@@ -169,6 +185,58 @@ public class SqlAccess extends SQLiteOpenHelper {
        return db.rawQuery("SELECT * FROM " + USER_TABLE + ";", null);
     }
 
+    /****************************
+     *  REMINDERS TABLE METHODS *
+     ****************************/
+
+    /**
+     *  Inserts a new reminder record to databse
+     * @param db
+     * @param newReminder
+     * @return
+     */
+    public long insertReminder(SQLiteDatabase db, Reminder newReminder) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(DATE, newReminder.getDate());
+        contentValues.put(TODO, newReminder.getTodo());
+        contentValues.put(RESOLVED, newReminder.getResolved());
+        return db.insert(REMINDER_TABLE, null, contentValues);
+    }
+
+    /**
+     *  Edits a reminder using the r_id type
+     * @param db
+     * @param newReminder
+     * @return
+     */
+    public long editReminder(SQLiteDatabase db, Reminder newReminder) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(RID, newReminder.getReminderId());
+        contentValues.put(DATE, newReminder.getDate());
+        contentValues.put(TODO, newReminder.getTodo());
+        contentValues.put(RESOLVED, newReminder.getResolved());
+        return db.update(REMINDER_TABLE, contentValues, RID + " = " + newReminder.getReminderId(), null);
+    }
+
+    /**
+     *  Deletes a reminders using the _id type
+     * @param db
+     * @param id
+     * @return
+     */
+    public long removeReminder(SQLiteDatabase db, int id) {
+        return db.delete(REMINDER_TABLE, "_id = " + id, null);
+    }
+
+    /**
+     * Returns a cursor holding all reminders records
+     * @param db
+     * @return
+     */
+    public Cursor getRemindersCursor(SQLiteDatabase db) {
+        return db.rawQuery("SELECT * FROM " + REMINDER_TABLE + ";", null);
+    }
+
     /************************************
      *  DAILY CONSUMPTION TABLE METHODS *
      ************************************/
@@ -181,7 +249,6 @@ public class SqlAccess extends SQLiteOpenHelper {
      * @returns the inserted row id, or -1 if error
      */
     public long insertDailyConsumption(SQLiteDatabase db, DailyConsumption dailyConsumption) {
-
         ContentValues contentValues = new ContentValues();
         contentValues.put(DATE, dailyConsumption.getDate());
         contentValues.put(CALORIES, dailyConsumption.getCalories());

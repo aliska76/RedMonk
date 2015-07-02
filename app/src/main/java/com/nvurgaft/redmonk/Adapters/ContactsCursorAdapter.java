@@ -13,10 +13,13 @@ import com.nvurgaft.redmonk.R;
 /**
  * Created by Koby on 28-Jun-15.
  */
-public class ContactsAdapter extends CursorAdapter {
+public class ContactsCursorAdapter extends CursorAdapter {
 
-    public ContactsAdapter(Context context, Cursor c, boolean autoRequery) {
-        super(context, c, autoRequery);
+    LayoutInflater inflater;
+
+    public ContactsCursorAdapter(Context context, Cursor c) {
+        super(context, c, 0);
+        inflater = LayoutInflater.from(context);
     }
 
     @Override
@@ -26,9 +29,13 @@ public class ContactsAdapter extends CursorAdapter {
 
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
-
         TextView contactNameTextView = (TextView) view.findViewById(R.id.contact_item_name);
         String contactName = cursor.getString(0);
         contactNameTextView.setText(contactName);
+    }
+
+    @Override
+    protected void onContentChanged() {
+        super.onContentChanged();
     }
 }

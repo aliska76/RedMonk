@@ -3,6 +3,7 @@ package com.nvurgaft.redmonk;
 import android.app.DialogFragment;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
@@ -15,6 +16,8 @@ import android.widget.Toast;
 
 import com.nvurgaft.redmonk.Dialogs.EditContactDialog;
 import com.nvurgaft.redmonk.Entities.Contact;
+import com.nvurgaft.redmonk.Model.ConnectionManager;
+import com.nvurgaft.redmonk.Model.SqlAccess;
 
 
 public class MainActivity extends ActionBarActivity
@@ -27,12 +30,18 @@ public class MainActivity extends ActionBarActivity
     private Toolbar mToolbar;
     private SharedPreferences sharedPreferences;
 
+    protected SqlAccess sqlAccess;
+    protected SQLiteDatabase db;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mToolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
         setSupportActionBar(mToolbar);
+
+        db = ConnectionManager.getConnection(this);
+        sqlAccess = new SqlAccess(this);
 
         sharedPreferences = getSharedPreferences(Values.PREFS, MODE_PRIVATE);
         String username = sharedPreferences.getString("username", "anon");
@@ -105,7 +114,8 @@ public class MainActivity extends ActionBarActivity
 
     @Override
     public void onDialogPositiveClick(DialogFragment dialog, Contact contact) {
-        Toast.makeText(this, "save contact", Toast.LENGTH_SHORT).show(); // TODO: remove after testing
+        sqlAccess.insertNewContact(db, contact);
+        Toast.makeText(this, "Contact saved", Toast.LENGTH_SHORT).show(); // TODO: remove after testing
     }
 
     @Override

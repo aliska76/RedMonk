@@ -2,16 +2,23 @@ package com.nvurgaft.redmonk.Fragments;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ListView;
+import android.widget.Toast;
 
-import com.nvurgaft.redmonk.Adapters.ContactsAdapter;
+import com.nvurgaft.redmonk.Adapters.ContactsCursorAdapter;
 import com.nvurgaft.redmonk.Dialogs.EditContactDialog;
+import com.nvurgaft.redmonk.Model.ConnectionManager;
+import com.nvurgaft.redmonk.Model.SqlAccess;
 import com.nvurgaft.redmonk.OnFragmentInteractionListener;
 import com.nvurgaft.redmonk.R;
 import com.nvurgaft.redmonk.Values;
@@ -34,9 +41,12 @@ public class ContactsFragment extends Fragment implements View.OnClickListener {
     private String mParam1;
     private String mParam2;
 
+    protected SQLiteDatabase db;
     private OnFragmentInteractionListener mListener;
 
-    private ContactsAdapter contactsAdapter;
+    private SqlAccess sqlAccess;
+    private ContactsCursorAdapter contactsCursorAdapter;
+    private ListView listView;
     private Button newContactButton;
 
     /**
@@ -76,10 +86,36 @@ public class ContactsFragment extends Fragment implements View.OnClickListener {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_contacts, container, false);
 
+        sqlAccess = new SqlAccess(getActivity());
+        db = ConnectionManager.getConnection(getActivity());
+        contactsCursorAdapter = new ContactsCursorAdapter(getActivity(), sqlAccess.getContactsCursor(db));
+
+        listView = (ListView) view.findViewById(R.id.contactListView);
+        listView.setAdapter(contactsCursorAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Cursor data = (Cursor) parent.getItemAtPosition(position);
+                String name = data.getString(1);
+
+                Toast.makeText(getActivity(), "clicked at " + name, Toast.LENGTH_SHORT).show();
+            }
+        });
+
         newContactButton = (Button) view.findViewById(R.id.newContactButton);
         newContactButton.setOnClickListener(this);
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        db = ConnectionManager.getConnection(getActivity());
+        contactsCursorAdapter.changeCursor(sqlAccess.getContactsCursor(db));
+        contactsCursorAdapter.notifyDataSetChanged();
+        db.close();
     }
 
     // TODO: Rename method, update argument and hook method into UI event
