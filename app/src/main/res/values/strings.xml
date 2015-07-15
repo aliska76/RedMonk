@@ -34,6 +34,9 @@
     <!-- Daily Reminder Fragment -->
     <string name="daily_consumption_fragment_title">Daily Consumption</string>
 
+    <string name="dc_chart_fragment_title">Daily consumption chart</string>
+    <string name="dc_data_fragment_title">Daily consumption data</string>
+
     <!-- Reminders Fragment -->
     <string name="reminders_fragment_title">Reminders</string>
 
