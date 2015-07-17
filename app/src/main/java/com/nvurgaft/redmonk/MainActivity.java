@@ -16,14 +16,17 @@ import android.widget.Toast;
 
 import com.nvurgaft.redmonk.Dialogs.ConfirmDialog;
 import com.nvurgaft.redmonk.Dialogs.EditContactDialog;
+import com.nvurgaft.redmonk.Dialogs.EditReminderDialog;
 import com.nvurgaft.redmonk.Entities.Contact;
+import com.nvurgaft.redmonk.Entities.Reminder;
 import com.nvurgaft.redmonk.Fragments.ContactsFragment;
+import com.nvurgaft.redmonk.Fragments.RemindersFragment;
 import com.nvurgaft.redmonk.Model.ConnectionManager;
 import com.nvurgaft.redmonk.Model.SqlAccess;
 
 
 public class MainActivity extends ActionBarActivity
-        implements NavigationDrawerCallbacks, OnFragmentInteractionListener, EditContactDialog.NoticeDialogListener, ConfirmDialog.NoticeDialogListener {
+        implements NavigationDrawerCallbacks, OnFragmentInteractionListener, EditContactDialog.NoticeDialogListener, ConfirmDialog.NoticeDialogListener, EditReminderDialog.NoticeDialogListener {
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -32,6 +35,7 @@ public class MainActivity extends ActionBarActivity
     private Toolbar mToolbar;
     private SharedPreferences sharedPreferences;
     private ContactsFragment contactsFragment;
+    private RemindersFragment remindersFragment;
 
     protected SqlAccess sqlAccess;
     protected SQLiteDatabase db;
@@ -123,10 +127,10 @@ public class MainActivity extends ActionBarActivity
 
         if (!isEdit) {
             sqlAccess.insertNewContact(db, contact);
-            Toast.makeText(this, "Contact saved", Toast.LENGTH_SHORT).show(); // TODO: remove after testing
+            Toast.makeText(this, "Contact saved", Toast.LENGTH_SHORT).show();
         } else {
             sqlAccess.updateContact(db, contact);
-            Toast.makeText(this, "Contact updated : " + contact.toString(), Toast.LENGTH_SHORT).show(); // TODO: remove after testing
+            Toast.makeText(this, "Contact updated : " + contact.toString(), Toast.LENGTH_SHORT).show();
         }
 
         contactsFragment.refreshFragmentView();
@@ -134,20 +138,41 @@ public class MainActivity extends ActionBarActivity
         db.close();
     }
 
-    /**
-     * Remove Contact by name
-     * @param dialog
-     * @param name
-     */
     @Override
-    public void onDialogPositiveClick(DialogFragment dialog, String name) {
+    public void onDialogPositiveClick(DialogFragment dialog, Reminder reminder, boolean isEdit) {
         db = ConnectionManager.getConnection(this);
-        sqlAccess.removeContactByName(db, name);
+
+        if (!isEdit) {
+            sqlAccess.insertNewReminder(db, reminder);
+            Toast.makeText(this, "Reminder saved", Toast.LENGTH_SHORT).show(); // TODO: remove after testing
+        } else {
+            sqlAccess.updateReminder(db, reminder);
+            Toast.makeText(this, "Reminder updated : " + reminder.toString(), Toast.LENGTH_SHORT).show(); // TODO: remove after testing
+        }
+
+        remindersFragment.refreshFragmentView();
+
         db.close();
     }
 
+    /**
+     * Accepts confirmation of confirm dialogs
+     * @param dialog
+     * @param value
+     */
+    @Override
+    public void onDialogPositiveClick(DialogFragment dialog, String value) {
+        db = ConnectionManager.getConnection(this);
+        sqlAccess.removeContactByName(db, value);
+        db.close();
+    }
+
+    /**
+     * Accepts rejections of confirmed cialogs
+     * @param dialog
+     */
     @Override
     public void onDialogNegativeClick(DialogFragment dialog) {
-        Toast.makeText(this, "cancel", Toast.LENGTH_SHORT).show(); // TODO: remove after testing
+        Toast.makeText(this, "cancel", Toast.LENGTH_SHORT).show();
     }
 }

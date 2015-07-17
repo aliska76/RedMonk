@@ -73,7 +73,7 @@ public class EditContactDialog extends DialogFragment {
             builder.setMessage(R.string.contacts_dialog_title_create);
         }
         builder.setView(dialogView)
-                .setPositiveButton(R.string.contacts_dialog_positive_button, new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String dialogContact = contactNameEditText.getText().toString();
@@ -107,7 +107,7 @@ public class EditContactDialog extends DialogFragment {
 
                     }
                 })
-                .setNegativeButton(R.string.contacts_dialog_negative_button, new DialogInterface.OnClickListener() {
+                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         mListener.onDialogNegativeClick(EditContactDialog.this);

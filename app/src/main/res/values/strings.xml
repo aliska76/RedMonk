@@ -29,17 +29,28 @@
     <string name="contacts_dialog_1st_number">First number</string>
     <string name="contacts_dialog_2nd_number">Second number</string>
     <string name="contacts_dialog_3rd_number">Third number</string>
-    <string name="contacts_dialog_positive_button">Save</string>
-    <string name="contacts_dialog_negative_button">Cancel</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
 
     <!-- Daily Reminder Fragment -->
     <string name="daily_consumption_fragment_title">Daily Consumption</string>
+
+
 
     <string name="dc_chart_fragment_title">Daily consumption chart</string>
     <string name="dc_data_fragment_title">Daily consumption data</string>
 
     <!-- Reminders Fragment -->
     <string name="reminders_fragment_title">Reminders</string>
+    <string name="reminders_fragment_new_reminder">New Reminder</string>
+    <string name="resolved">Resolved</string>
+    <string name="unresolved">Unresolved</string>
+
+    <!-- Reminders Edit Dialog -->
+    <string name="reminders_dialog_title_edit">Edit Reminder</string>
+    <string name="reminders_dialog_title_create">Add New Reminder</string>
+    <string name="modify_date">Set Date</string>
+    <string name="modify_time">Set Time</string>
 
     <!-- Drawer Menu Items -->
     <string name="stats_drawer_item">My Stats</string>
@@ -58,10 +69,12 @@
     <!-- Confirm Dialog -->
     <string name="confirm_dialog_title">Confirm Action</string>
     <string name="confirm_delete_contact_text">Are you sure you want to delete this contact : </string>
+    <string name="confirm_delete_reminder_text">Delete this reminder ?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_settings">SettingsActivity</string>
+    <string name="placeholder">:: placeholder ::</string>
 </resources>

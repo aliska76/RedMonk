@@ -12,7 +12,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:text="@string/status_fragment_title" />
+        android:text="@string/status_fragment_title"
+        android:textSize="@dimen/abc_text_size_medium_material"/>
 
     <TextView
         android:id="@+id/statusFragmentName"

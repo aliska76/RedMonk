@@ -2,14 +2,27 @@ package com.nvurgaft.redmonk.Fragments;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.ListView;
+import android.widget.Toast;
 
+import com.nvurgaft.redmonk.Adapters.RemindersCursorAdapter;
+import com.nvurgaft.redmonk.Dialogs.ConfirmDialog;
+import com.nvurgaft.redmonk.Dialogs.EditReminderDialog;
+import com.nvurgaft.redmonk.Model.ConnectionManager;
+import com.nvurgaft.redmonk.Model.SqlAccess;
 import com.nvurgaft.redmonk.OnFragmentInteractionListener;
 import com.nvurgaft.redmonk.R;
+import com.nvurgaft.redmonk.Values;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -19,7 +32,7 @@ import com.nvurgaft.redmonk.R;
  * Use the {@link RemindersFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class RemindersFragment extends Fragment {
+public class RemindersFragment extends Fragment implements View.OnClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -29,7 +42,13 @@ public class RemindersFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    protected SQLiteDatabase db;
     private OnFragmentInteractionListener mListener;
+
+    private SqlAccess sqlAccess;
+    private RemindersCursorAdapter remindersCursorAdapter;
+    private ListView listView;
+    private Button newReminderButton;
 
     /**
      * Use this factory method to create a new instance of
@@ -66,7 +85,64 @@ public class RemindersFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_reminders, container, false);
+        View view =  inflater.inflate(R.layout.fragment_reminders, container, false);
+
+        sqlAccess = new SqlAccess(getActivity());
+        db = ConnectionManager.getConnection(getActivity());
+        remindersCursorAdapter = new RemindersCursorAdapter(getActivity(), sqlAccess.getRemindersCursor(db));
+
+        listView = (ListView) view.findViewById(R.id.remindersListView);
+        listView.setAdapter(remindersCursorAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Cursor data = (Cursor) parent.getItemAtPosition(position);
+
+                Toast.makeText(getActivity(), "clicked at reminder " + data.getInt(1), Toast.LENGTH_SHORT).show();
+                // open a dialog to edit selected reminder
+                EditReminderDialog editReminderDialog = new EditReminderDialog();
+
+                Bundle selectedReminderBundle = new Bundle();
+                selectedReminderBundle.putBoolean("isEdit", true);
+                selectedReminderBundle.putLong("rid", data.getInt(1));
+                selectedReminderBundle.putLong("date", data.getInt(2));
+                selectedReminderBundle.putString("todo", data.getString(3));
+                selectedReminderBundle.putString("resolved", data.getString(4));
+                editReminderDialog.setArguments(selectedReminderBundle);
+                editReminderDialog.show(getFragmentManager(), "EditReminderDialog");
+            }
+        });
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                Cursor data = (Cursor) parent.getItemAtPosition(position);
+
+                Toast.makeText(getActivity(), "long clicked at reminder " + data.getString(1), Toast.LENGTH_SHORT).show();
+                ConfirmDialog confirmDialog = new ConfirmDialog();
+                long reminderId = data.getLong(1);
+
+                Bundle confirmDialogBundle = new Bundle();
+                confirmDialogBundle.putString("content", getString(R.string.confirm_delete_reminder_text));
+                confirmDialogBundle.putString("identifier", String.valueOf(reminderId));
+                confirmDialog.setArguments(confirmDialogBundle);
+                confirmDialog.show(getFragmentManager(), "ConfirmDialog");
+                return true;
+            }
+        });
+
+        newReminderButton = (Button) view.findViewById(R.id.newReminderButton);
+        newReminderButton.setOnClickListener(this);
+
+        return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        db = ConnectionManager.getConnection(getActivity());
+        remindersCursorAdapter.changeCursor(sqlAccess.getRemindersCursor(db));
+        remindersCursorAdapter.notifyDataSetChanged();
+        db.close();
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -91,6 +167,25 @@ public class RemindersFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.newReminderButton:
+                EditReminderDialog editReminderDialog = new EditReminderDialog();
+                editReminderDialog.show(getFragmentManager(), "EditReminderDialog");
+                break;
+            default:
+                Log.d(Values.LOG, "Invalid value selected");
+        }
+    }
+
+    public void refreshFragmentView() {
+        if (remindersCursorAdapter != null) {
+            remindersCursorAdapter.changeCursor(sqlAccess.getRemindersCursor(db));
+            remindersCursorAdapter.notifyDataSetChanged();
+        }
     }
 
 }

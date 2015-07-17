@@ -195,7 +195,7 @@ public class SqlAccess extends SQLiteOpenHelper {
      * @param newReminder
      * @return
      */
-    public long insertReminder(SQLiteDatabase db, Reminder newReminder) {
+    public long insertNewReminder(SQLiteDatabase db, Reminder newReminder) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(DATE, newReminder.getDate());
         contentValues.put(TODO, newReminder.getTodo());
@@ -209,7 +209,7 @@ public class SqlAccess extends SQLiteOpenHelper {
      * @param newReminder
      * @return
      */
-    public long editReminder(SQLiteDatabase db, Reminder newReminder) {
+    public long updateReminder(SQLiteDatabase db, Reminder newReminder) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(RID, newReminder.getReminderId());
         contentValues.put(DATE, newReminder.getDate());

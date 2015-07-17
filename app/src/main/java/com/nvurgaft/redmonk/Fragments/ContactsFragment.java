@@ -140,7 +140,6 @@ public class ContactsFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onResume() {
         super.onResume();
-
         db = ConnectionManager.getConnection(getActivity());
         contactsCursorAdapter.changeCursor(sqlAccess.getContactsCursor(db));
         contactsCursorAdapter.notifyDataSetChanged();
@@ -189,6 +188,5 @@ public class ContactsFragment extends Fragment implements View.OnClickListener {
             contactsCursorAdapter.notifyDataSetChanged();
         }
     }
-
 
 }
