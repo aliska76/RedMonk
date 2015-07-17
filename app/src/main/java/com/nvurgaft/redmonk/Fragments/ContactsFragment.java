@@ -16,6 +16,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.nvurgaft.redmonk.Adapters.ContactsCursorAdapter;
+import com.nvurgaft.redmonk.Dialogs.ConfirmDialog;
 import com.nvurgaft.redmonk.Dialogs.EditContactDialog;
 import com.nvurgaft.redmonk.Model.ConnectionManager;
 import com.nvurgaft.redmonk.Model.SqlAccess;
@@ -96,9 +97,8 @@ public class ContactsFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Cursor data = (Cursor) parent.getItemAtPosition(position);
-                String name = data.getString(1);
 
-                Toast.makeText(getActivity(), "clicked at " + name, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "clicked at contact " + data.getString(1), Toast.LENGTH_SHORT).show();
                 // open a dialog to edit selected contact
                 EditContactDialog editContactDialog = new EditContactDialog();
 
@@ -111,6 +111,23 @@ public class ContactsFragment extends Fragment implements View.OnClickListener {
                 selectedContactBundle.putString("number3", data.getString(5));
                 editContactDialog.setArguments(selectedContactBundle);
                 editContactDialog.show(getFragmentManager(), "EditContactDialog");
+            }
+        });
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                Cursor data = (Cursor) parent.getItemAtPosition(position);
+
+                Toast.makeText(getActivity(), "long clicked at contact " + data.getString(1), Toast.LENGTH_SHORT).show();
+                ConfirmDialog confirmDialog = new ConfirmDialog();
+                String contactName = data.getString(1);
+
+                Bundle confirmDialogBundle = new Bundle();
+                confirmDialogBundle.putString("content", getString(R.string.confirm_delete_contact_text) + contactName);
+                confirmDialogBundle.putString("identifier", contactName);
+                confirmDialog.setArguments(confirmDialogBundle);
+                confirmDialog.show(getFragmentManager(), "ConfirmDialog");
+                return true;
             }
         });
 

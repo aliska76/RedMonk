@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.nvurgaft.redmonk.Dialogs.ConfirmDialog;
 import com.nvurgaft.redmonk.Dialogs.EditContactDialog;
 import com.nvurgaft.redmonk.Entities.Contact;
 import com.nvurgaft.redmonk.Fragments.ContactsFragment;
@@ -22,7 +23,7 @@ import com.nvurgaft.redmonk.Model.SqlAccess;
 
 
 public class MainActivity extends ActionBarActivity
-        implements NavigationDrawerCallbacks, OnFragmentInteractionListener, EditContactDialog.NoticeDialogListener  {
+        implements NavigationDrawerCallbacks, OnFragmentInteractionListener, EditContactDialog.NoticeDialogListener, ConfirmDialog.NoticeDialogListener {
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -125,11 +126,23 @@ public class MainActivity extends ActionBarActivity
             Toast.makeText(this, "Contact saved", Toast.LENGTH_SHORT).show(); // TODO: remove after testing
         } else {
             sqlAccess.updateContact(db, contact);
-            Toast.makeText(this, "Contact updated", Toast.LENGTH_SHORT).show(); // TODO: remove after testing
+            Toast.makeText(this, "Contact updated : " + contact.toString(), Toast.LENGTH_SHORT).show(); // TODO: remove after testing
         }
 
         contactsFragment.refreshFragmentView();
 
+        db.close();
+    }
+
+    /**
+     * Remove Contact by name
+     * @param dialog
+     * @param name
+     */
+    @Override
+    public void onDialogPositiveClick(DialogFragment dialog, String name) {
+        db = ConnectionManager.getConnection(this);
+        sqlAccess.removeContactByName(db, name);
         db.close();
     }
 
