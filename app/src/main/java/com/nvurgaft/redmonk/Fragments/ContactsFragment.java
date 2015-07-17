@@ -99,6 +99,18 @@ public class ContactsFragment extends Fragment implements View.OnClickListener {
                 String name = data.getString(1);
 
                 Toast.makeText(getActivity(), "clicked at " + name, Toast.LENGTH_SHORT).show();
+                // open a dialog to edit selected contact
+                EditContactDialog editContactDialog = new EditContactDialog();
+
+                Bundle selectedContactBundle = new Bundle();
+                selectedContactBundle.putBoolean("isEdit", true);
+                selectedContactBundle.putString("name", data.getString(1));
+                selectedContactBundle.putString("role", data.getString(2));
+                selectedContactBundle.putString("number1", data.getString(3));
+                selectedContactBundle.putString("number2", data.getString(4));
+                selectedContactBundle.putString("number3", data.getString(5));
+                editContactDialog.setArguments(selectedContactBundle);
+                editContactDialog.show(getFragmentManager(), "EditContactDialog");
             }
         });
 
@@ -151,6 +163,13 @@ public class ContactsFragment extends Fragment implements View.OnClickListener {
                 break;
             default:
                 Log.d(Values.LOG, "Invalid value selected");
+        }
+    }
+
+    public void refreshFragmentView() {
+        if (contactsCursorAdapter != null) {
+            contactsCursorAdapter.changeCursor(sqlAccess.getContactsCursor(db));
+            contactsCursorAdapter.notifyDataSetChanged();
         }
     }
 

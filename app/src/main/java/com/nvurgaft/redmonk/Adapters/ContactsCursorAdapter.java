@@ -24,14 +24,27 @@ public class ContactsCursorAdapter extends CursorAdapter {
 
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
-        return LayoutInflater.from(context).inflate(R.layout.contact_item, parent);
+        return inflater.inflate(R.layout.contact_item, parent, false);
     }
 
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
         TextView contactNameTextView = (TextView) view.findViewById(R.id.contact_item_name);
-        String contactName = cursor.getString(0);
-        contactNameTextView.setText(contactName);
+        TextView contactRoleTextView = (TextView) view.findViewById(R.id.contact_item_role);
+        TextView contactNumbersTextView = (TextView) view.findViewById(R.id.contact_item_numbers);
+
+        contactNameTextView.setText(new StringBuilder().append(cursor.getString(0)).append(". ").append(cursor.getString(1)).toString());
+        contactRoleTextView.setText(cursor.getString(2));
+
+        StringBuilder sb = new StringBuilder();
+        for (int i=3;i<=5; i++) {
+            if (!cursor.getString(i).isEmpty()) {
+                sb.append(cursor.getString(i));
+                sb.append(" | ");
+            }
+        }
+
+        contactNumbersTextView.setText(sb.toString());
     }
 
     @Override

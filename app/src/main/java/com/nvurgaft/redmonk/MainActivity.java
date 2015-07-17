@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.nvurgaft.redmonk.Dialogs.EditContactDialog;
 import com.nvurgaft.redmonk.Entities.Contact;
+import com.nvurgaft.redmonk.Fragments.ContactsFragment;
 import com.nvurgaft.redmonk.Model.ConnectionManager;
 import com.nvurgaft.redmonk.Model.SqlAccess;
 
@@ -29,6 +30,7 @@ public class MainActivity extends ActionBarActivity
     private NavigationDrawerFragment mNavigationDrawerFragment;
     private Toolbar mToolbar;
     private SharedPreferences sharedPreferences;
+    private ContactsFragment contactsFragment;
 
     protected SqlAccess sqlAccess;
     protected SQLiteDatabase db;
@@ -42,6 +44,8 @@ public class MainActivity extends ActionBarActivity
 
         db = ConnectionManager.getConnection(this);
         sqlAccess = new SqlAccess(this);
+
+        contactsFragment = new ContactsFragment();
 
         sharedPreferences = getSharedPreferences(Values.PREFS, MODE_PRIVATE);
         String username = sharedPreferences.getString("username", "anon");
@@ -113,9 +117,20 @@ public class MainActivity extends ActionBarActivity
 
 
     @Override
-    public void onDialogPositiveClick(DialogFragment dialog, Contact contact) {
-        sqlAccess.insertNewContact(db, contact);
-        Toast.makeText(this, "Contact saved", Toast.LENGTH_SHORT).show(); // TODO: remove after testing
+    public void onDialogPositiveClick(DialogFragment dialog, Contact contact, boolean isEdit) {
+        db = ConnectionManager.getConnection(this);
+
+        if (!isEdit) {
+            sqlAccess.insertNewContact(db, contact);
+            Toast.makeText(this, "Contact saved", Toast.LENGTH_SHORT).show(); // TODO: remove after testing
+        } else {
+            sqlAccess.updateContact(db, contact);
+            Toast.makeText(this, "Contact updated", Toast.LENGTH_SHORT).show(); // TODO: remove after testing
+        }
+
+        contactsFragment.refreshFragmentView();
+
+        db.close();
     }
 
     @Override
