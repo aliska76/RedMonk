@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.DatePicker;
 
 import com.nvurgaft.redmonk.Entities.Reminder;
 import com.nvurgaft.redmonk.R;
@@ -18,6 +19,8 @@ import com.nvurgaft.redmonk.R;
 public class EditReminderDialog extends DialogFragment {
 
     protected NoticeDialogListener mListener;
+
+    protected DatePicker reminderDatePicker;
 
     public interface NoticeDialogListener {
         public void onDialogPositiveClick(DialogFragment dialog, Reminder reminder, boolean isEdit);
@@ -30,6 +33,8 @@ public class EditReminderDialog extends DialogFragment {
 
         final LayoutInflater inflater = getActivity().getLayoutInflater();
         final View dialogView = inflater.inflate(R.layout.reminders_dialog_fragment_view, null);
+
+        reminderDatePicker = (DatePicker) dialogView.findViewById(R.id.reminderDatePicker);
 
         boolean isEdit = false;
 

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:key="pref_key_storage_settings"
+        android:title="@string/settings_category">
+        <Preference
+            android:key="pref_key_setting_one"
+            android:summary="@string/setting_one_summery"
+            android:title="@string/setting_one_title" />
+        <Preference
+            android:key="pref_key_setting_two"
+            android:summary="@string/setting_two_summery"
+            android:title="@string/setting_two_title" />
+        <PreferenceList
+            android:key="pref_key_setting_delete"
+            android:persistent="false"
+            android:summary="@string/setting_delete_summery"
+            android:title="@string/setting_delete_title">
+            <ListPreference
+                android:key="pref_key_setting_delete_contacts"
+                android:title="@string/remove_data_contacts" />
+            <ListPreference
+                android:key="pref_key_setting_delete_reminders"
+                android:title="@string/remove_data_reminders" />
+
+        </PreferenceList>
+    </PreferenceCategory>
+</PreferenceScreen>
