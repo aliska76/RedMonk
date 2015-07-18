@@ -36,6 +36,8 @@ public class SqlAccess extends SQLiteOpenHelper {
     private static final String RESOLVED = "resolve";
 
     private static final String DATE = "date";
+    private static final String HOUR = "time_hour";
+    private static final String MINUTE = "time_minute";
     private static final String CALORIES = "calories";
     private static final String CARBOHYDRATES = "carbohydrates";
     private static final String PROTEINS = "proteins";
@@ -70,7 +72,8 @@ public class SqlAccess extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE " + REMINDER_TABLE + " (" +
                         "_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                         RID + " INTEGER NOT NULL," +
-                        DATE + " TEXT NOT NULL," +
+                        HOUR + " INTEGER NOT NULL," +
+                        MINUTE + " INTEGER NOT NULL," +
                         TODO + " TEXT," +
                         RESOLVED + " TEXT" +
                         ");"
@@ -197,7 +200,9 @@ public class SqlAccess extends SQLiteOpenHelper {
      */
     public long insertNewReminder(SQLiteDatabase db, Reminder newReminder) {
         ContentValues contentValues = new ContentValues();
-        contentValues.put(DATE, newReminder.getDate());
+        contentValues.put(RID, newReminder.getReminderId());
+        contentValues.put(HOUR, newReminder.getHour());
+        contentValues.put(MINUTE, newReminder.getMinute());
         contentValues.put(TODO, newReminder.getTodo());
         contentValues.put(RESOLVED, newReminder.getResolved());
         return db.insert(REMINDER_TABLE, null, contentValues);
@@ -212,7 +217,8 @@ public class SqlAccess extends SQLiteOpenHelper {
     public long updateReminder(SQLiteDatabase db, Reminder newReminder) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(RID, newReminder.getReminderId());
-        contentValues.put(DATE, newReminder.getDate());
+        contentValues.put(HOUR, newReminder.getHour());
+        contentValues.put(MINUTE, newReminder.getMinute());
         contentValues.put(TODO, newReminder.getTodo());
         contentValues.put(RESOLVED, newReminder.getResolved());
         return db.update(REMINDER_TABLE, contentValues, RID + " = " + newReminder.getReminderId(), null);

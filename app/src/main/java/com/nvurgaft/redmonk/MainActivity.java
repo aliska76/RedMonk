@@ -51,6 +51,7 @@ public class MainActivity extends ActionBarActivity
         sqlAccess = new SqlAccess(this);
 
         contactsFragment = new ContactsFragment();
+        remindersFragment = new RemindersFragment();
 
         sharedPreferences = getSharedPreferences(Values.PREFS, MODE_PRIVATE);
         String username = sharedPreferences.getString("username", "anon");

@@ -5,5 +5,4 @@ package com.nvurgaft.redmonk.Logic;
  */
 public class Utils {
 
-
 }

@@ -51,6 +51,7 @@
     <string name="reminders_dialog_title_create">Add New Reminder</string>
     <string name="modify_date">Set Date</string>
     <string name="modify_time">Set Time</string>
+    <string name="todo">Todo: </string>
 
     <!-- Drawer Menu Items -->
     <string name="stats_drawer_item">My Stats</string>

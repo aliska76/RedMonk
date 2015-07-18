@@ -105,9 +105,10 @@ public class RemindersFragment extends Fragment implements View.OnClickListener 
                 Bundle selectedReminderBundle = new Bundle();
                 selectedReminderBundle.putBoolean("isEdit", true);
                 selectedReminderBundle.putLong("rid", data.getInt(1));
-                selectedReminderBundle.putLong("date", data.getInt(2));
-                selectedReminderBundle.putString("todo", data.getString(3));
-                selectedReminderBundle.putString("resolved", data.getString(4));
+                selectedReminderBundle.putLong("hour", data.getInt(2));
+                selectedReminderBundle.putLong("minute", data.getInt(3));
+                selectedReminderBundle.putString("todo", data.getString(4));
+                selectedReminderBundle.putString("resolved", data.getString(5));
                 editReminderDialog.setArguments(selectedReminderBundle);
                 editReminderDialog.show(getFragmentManager(), "EditReminderDialog");
             }

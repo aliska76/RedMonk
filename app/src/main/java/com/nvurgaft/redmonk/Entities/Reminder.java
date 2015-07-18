@@ -6,7 +6,8 @@ package com.nvurgaft.redmonk.Entities;
 public class Reminder {
 
     private long reminderId;
-    private long date;
+    private int hour;
+    private int minute;
     private String todo;
     private String resolved;
 
@@ -21,12 +22,20 @@ public class Reminder {
         this.reminderId = reminderId;
     }
 
-    public long getDate() {
-        return date;
+    public int getHour() {
+        return hour;
     }
 
-    public void setDate(long date) {
-        this.date = date;
+    public void setHour(int hour) {
+        this.hour = hour;
+    }
+
+    public int getMinute() {
+        return minute;
+    }
+
+    public void setMinute(int minute) {
+        this.minute = minute;
     }
 
     public String getResolved() {
@@ -49,7 +58,8 @@ public class Reminder {
     public String toString() {
         return "Reminder{" +
                 "reminderId=" + reminderId +
-                ", date=" + date +
+                ", hour=" + hour +
+                ", minute=" + minute +
                 ", todo='" + todo + '\'' +
                 ", resolved='" + resolved + '\'' +
                 '}';
