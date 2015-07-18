@@ -17,6 +17,17 @@
 
     <string name="save_button">Save</string>
 
+    <!-- Daily Consumption Fragment -->
+    <string name="dc_fragment_title">Daily Consumption Information</string>
+
+    <!-- Daily Consumption Dialog -->
+    <string name="dc_enter_dc">Enter Daily Consumption</string>
+    <string name="dc_edit_dc">Edit Daily Consumption</string>
+    <string name="dc_calories">Calories: </string>
+    <string name="dc_carbohydrates">Carbohydrates: </string>
+    <string name="dc_proteins">Proteins: </string>
+    <string name="dc_fats">Fats: </string>
+
     <!-- Contacts Fragment -->
     <string name="contacts_fragment_title">Contacts</string>
     <string name="contacts_fragment_new_contact">New Contact</string>
@@ -34,9 +45,6 @@
 
     <!-- Daily Reminder Fragment -->
     <string name="daily_consumption_fragment_title">Daily Consumption</string>
-
-
-
     <string name="dc_chart_fragment_title">Daily consumption chart</string>
     <string name="dc_data_fragment_title">Daily consumption data</string>
 
