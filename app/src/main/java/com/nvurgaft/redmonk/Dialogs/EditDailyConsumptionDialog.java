@@ -61,8 +61,12 @@ public class EditDailyConsumptionDialog extends DialogFragment {
         fatsEditText.setText(fats);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setMessage(R.string.dc_enter_dc)
-                .setView(dialogView)
+        if (isEdit) {
+            builder.setMessage(R.string.dc_enter_dc);
+        } else {
+            builder.setMessage(R.string.dc_edit_dc);
+        }
+        builder.setView(dialogView)
                 .setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

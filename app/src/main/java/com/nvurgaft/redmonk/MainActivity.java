@@ -10,32 +10,39 @@ import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.nvurgaft.redmonk.Dialogs.ConfirmDialog;
 import com.nvurgaft.redmonk.Dialogs.EditContactDialog;
+import com.nvurgaft.redmonk.Dialogs.EditDailyConsumptionDialog;
 import com.nvurgaft.redmonk.Dialogs.EditReminderDialog;
 import com.nvurgaft.redmonk.Entities.Contact;
+import com.nvurgaft.redmonk.Entities.DailyConsumption;
 import com.nvurgaft.redmonk.Entities.Reminder;
 import com.nvurgaft.redmonk.Fragments.ContactsFragment;
+import com.nvurgaft.redmonk.Fragments.DailyConsumptionFragment;
 import com.nvurgaft.redmonk.Fragments.RemindersFragment;
 import com.nvurgaft.redmonk.Model.ConnectionManager;
 import com.nvurgaft.redmonk.Model.SqlAccess;
 
 
 public class MainActivity extends ActionBarActivity
-        implements NavigationDrawerCallbacks, OnFragmentInteractionListener, EditContactDialog.NoticeDialogListener, ConfirmDialog.NoticeDialogListener, EditReminderDialog.NoticeDialogListener {
+        implements NavigationDrawerCallbacks, OnFragmentInteractionListener, EditContactDialog.NoticeDialogListener,
+        ConfirmDialog.NoticeDialogListener, EditReminderDialog.NoticeDialogListener, EditDailyConsumptionDialog.NoticeDialogListener {
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
     private NavigationDrawerFragment mNavigationDrawerFragment;
     private Toolbar mToolbar;
+
     private SharedPreferences sharedPreferences;
     private ContactsFragment contactsFragment;
     private RemindersFragment remindersFragment;
+    private DailyConsumptionFragment dailyConsumptionFragment;
 
     protected SqlAccess sqlAccess;
     protected SQLiteDatabase db;
@@ -52,6 +59,7 @@ public class MainActivity extends ActionBarActivity
 
         contactsFragment = new ContactsFragment();
         remindersFragment = new RemindersFragment();
+        dailyConsumptionFragment = new DailyConsumptionFragment();
 
         sharedPreferences = getSharedPreferences(Values.PREFS, MODE_PRIVATE);
         String username = sharedPreferences.getString("username", "anon");
@@ -107,9 +115,13 @@ public class MainActivity extends ActionBarActivity
                 startActivity(intent);
                 return true;
             case R.id.action_exit:
-                // TODO: call a user prompt to confirm exit
-
-                finish();
+                ConfirmDialog confirmDialog = new ConfirmDialog();
+                Bundle bundle = new Bundle();
+                bundle.putString("content", "Really Exit ?");
+                bundle.putString("identifier", "exitPrompt");
+                bundle.putString("tag", "exitPrompt");
+                confirmDialog.setArguments(bundle);
+                confirmDialog.show(getFragmentManager(), "ExitPrompt");
                 return true;
         }
 
@@ -145,13 +157,30 @@ public class MainActivity extends ActionBarActivity
 
         if (!isEdit) {
             sqlAccess.insertNewReminder(db, reminder);
-            Toast.makeText(this, "Reminder saved", Toast.LENGTH_SHORT).show(); // TODO: remove after testing
+            Toast.makeText(this, "Reminder saved", Toast.LENGTH_SHORT).show();
         } else {
             sqlAccess.updateReminder(db, reminder);
-            Toast.makeText(this, "Reminder updated : " + reminder.toString(), Toast.LENGTH_SHORT).show(); // TODO: remove after testing
+            Toast.makeText(this, "Reminder updated : " + reminder.getTodo(), Toast.LENGTH_SHORT).show();
         }
 
         remindersFragment.refreshFragmentView();
+
+        db.close();
+    }
+
+    @Override
+    public void onDialogPositiveClick(DialogFragment dialog, DailyConsumption dailyConsumption, boolean isEdit) {
+        db = ConnectionManager.getConnection(this);
+
+        if (!isEdit) {
+            sqlAccess.insertDailyConsumption(db, dailyConsumption);
+            Toast.makeText(this, "Daily consumption saved", Toast.LENGTH_SHORT).show(); // TODO: remove after testing
+        } else {
+            sqlAccess.updateDailyConsumptionByDate(db, dailyConsumption);
+            Toast.makeText(this, "Daily consumption updated : " + dailyConsumption.toString(), Toast.LENGTH_SHORT).show(); // TODO: remove after testing
+        }
+
+        dailyConsumptionFragment.refreshFragmentView();
 
         db.close();
     }
@@ -162,14 +191,29 @@ public class MainActivity extends ActionBarActivity
      * @param value
      */
     @Override
-    public void onDialogPositiveClick(DialogFragment dialog, String value) {
-        db = ConnectionManager.getConnection(this);
-        sqlAccess.removeContactByName(db, value);
-        db.close();
+    public void onDialogPositiveClick(DialogFragment dialog, String value, String tag) {
+        switch (tag) {
+            case "exitPrompt":
+                finish();
+                break;
+            case "contactPrompt":
+                db = ConnectionManager.getConnection(this);
+                sqlAccess.removeContactByName(db, value);
+                db.close();
+                break;
+            case "reminderPrompt":
+                db = ConnectionManager.getConnection(this);
+                sqlAccess.removeReminder(db, Integer.valueOf(value));
+                db.close();
+                break;
+            default:
+                Log.d(Values.LOG, "Invalid confirm dialog response");
+        }
+
     }
 
     /**
-     * Accepts rejections of confirmed cialogs
+     * Accepts rejections of confirmed dialogs
      * @param dialog
      */
     @Override

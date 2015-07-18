@@ -2,12 +2,18 @@ package com.nvurgaft.redmonk.Fragments;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ListView;
 
+import com.nvurgaft.redmonk.Adapters.DailyConsumptionCursorAdapter;
+import com.nvurgaft.redmonk.Model.ConnectionManager;
+import com.nvurgaft.redmonk.Model.SqlAccess;
 import com.nvurgaft.redmonk.OnFragmentInteractionListener;
 import com.nvurgaft.redmonk.R;
 
@@ -29,7 +35,13 @@ public class DailyConsumptionFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    protected SQLiteDatabase db;
     private OnFragmentInteractionListener mListener;
+
+    private SqlAccess sqlAccess;
+    private DailyConsumptionCursorAdapter dailyConsumptionCursorAdapter;
+    private ListView listView;
+    private Button newDCButton;
 
     /**
      * Use this factory method to create a new instance of
@@ -68,7 +80,20 @@ public class DailyConsumptionFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_daily_consumption, container, false);
 
+        sqlAccess = new SqlAccess(getActivity());
+        db = ConnectionManager.getConnection(getActivity());
+        dailyConsumptionCursorAdapter = new DailyConsumptionCursorAdapter(getActivity(), sqlAccess.getAllDailyConsumptionsCursor(db));
+
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        db = ConnectionManager.getConnection(getActivity());
+        dailyConsumptionCursorAdapter.changeCursor(sqlAccess.getRemindersCursor(db));
+        dailyConsumptionCursorAdapter.notifyDataSetChanged();
+        db.close();
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -93,6 +118,13 @@ public class DailyConsumptionFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    public void refreshFragmentView() {
+        if (dailyConsumptionCursorAdapter != null) {
+            dailyConsumptionCursorAdapter.changeCursor(sqlAccess.getRemindersCursor(db));
+            dailyConsumptionCursorAdapter.notifyDataSetChanged();
+        }
     }
 
 }

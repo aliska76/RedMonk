@@ -20,7 +20,7 @@ public class ConfirmDialog extends DialogFragment {
     protected NoticeDialogListener mListener;
 
     public interface NoticeDialogListener {
-        public void onDialogPositiveClick(DialogFragment dialog, String identifier);
+        public void onDialogPositiveClick(DialogFragment dialog, String identifier, String tag);
 
         public void onDialogNegativeClick(DialogFragment dialog);
     }
@@ -31,18 +31,18 @@ public class ConfirmDialog extends DialogFragment {
         final LayoutInflater inflater = getActivity().getLayoutInflater();
         final View dialogView = inflater.inflate(R.layout.confirm_dialog_view, null);
 
-        String message = "";
+        String message = "Confirm Action";
         String cName = "";
+        String tag = "";
         Bundle bundle = getArguments();
         if (bundle != null) {
             message = bundle.getString("content", "N/A");
             cName = bundle.getString("identifier", "");
-        } else {
-            message = "Confirm Action";
-            cName = "";
+            tag = bundle.getString("tag", "");
         }
 
         final String identifier = cName.trim();
+        final String action = tag;
 
         TextView msgTextView = (TextView) dialogView.findViewById(R.id.confirm_dialog_view_text);
         msgTextView.setText(message);
@@ -53,7 +53,7 @@ public class ConfirmDialog extends DialogFragment {
                 .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        mListener.onDialogPositiveClick(ConfirmDialog.this, identifier);
+                        mListener.onDialogPositiveClick(ConfirmDialog.this, identifier, action);
                     }
                 })
                 .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {

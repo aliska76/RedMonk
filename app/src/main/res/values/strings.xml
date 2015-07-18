@@ -15,8 +15,6 @@
     <string name="status_fragment_height">Your Height (in centimeters):</string>
     <string name="status_fragment_weight">Your Weight (in centimeters):</string>
 
-    <string name="save_button">Save</string>
-
     <!-- Daily Consumption Fragment -->
     <string name="dc_fragment_title">Daily Consumption Information</string>
 
@@ -40,6 +38,7 @@
     <string name="contacts_dialog_1st_number">First number</string>
     <string name="contacts_dialog_2nd_number">Second number</string>
     <string name="contacts_dialog_3rd_number">Third number</string>
+
     <string name="save">Save</string>
     <string name="cancel">Cancel</string>
 

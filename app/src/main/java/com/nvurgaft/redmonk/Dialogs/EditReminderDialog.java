@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -22,8 +23,10 @@ public class EditReminderDialog extends DialogFragment {
 
     protected NoticeDialogListener mListener;
 
+    protected Context context;
     protected TimePicker reminderTimePicker;
     protected EditText todoEditText;
+
 
     public interface NoticeDialogListener {
         public void onDialogPositiveClick(DialogFragment dialog, Reminder reminder, boolean isEdit);
@@ -44,13 +47,13 @@ public class EditReminderDialog extends DialogFragment {
         long reminderId = 0L;
         int hour = 0;
         int minute = 0;
-        String todo = "N/A";
+        String todo = "";
         boolean resolved = false;
 
         Bundle passedBundle = getArguments();
         if (passedBundle != null) {
             isEdit = passedBundle.getBoolean("isEdit", false);
-            reminderId = passedBundle.getInt("rid", 0);
+            reminderId = passedBundle.getLong("rid", 0);
             hour = passedBundle.getInt("hour", 0);
             minute = passedBundle.getInt("minute", 0);
             todo = passedBundle.getString("todo", "N/A");
@@ -58,10 +61,10 @@ public class EditReminderDialog extends DialogFragment {
         }
 
         final boolean action = isEdit;
+        final long r_id = reminderId;
         reminderTimePicker.setCurrentHour(hour);
         reminderTimePicker.setCurrentMinute(minute);
         todoEditText.setText(todo);
-
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         if (isEdit) {
@@ -82,7 +85,14 @@ public class EditReminderDialog extends DialogFragment {
                         String todoText = todoEditText.getText().toString();
                         Toast.makeText(getActivity(), "Time is " + cHour + ":" + cMinute, Toast.LENGTH_SHORT).show();
 
-                        reminder.setReminderId(System.currentTimeMillis()/1000L);
+                        // if the user creates a new reminder, the r_id should be a unix time identifier
+                        // if the user only updates the reminder, use the already stored r_id.
+                        if (action) {
+                            reminder.setReminderId(r_id);
+                        } else {
+                            reminder.setReminderId(System.currentTimeMillis());
+                        }
+
                         reminder.setHour(cHour);
                         reminder.setMinute(cMinute);
                         reminder.setTodo(todoText);
@@ -90,8 +100,6 @@ public class EditReminderDialog extends DialogFragment {
 
                         // send the contact back to the activity to be registered
                         mListener.onDialogPositiveClick(EditReminderDialog.this, reminder, action);
-
-
                     }
                 })
                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {

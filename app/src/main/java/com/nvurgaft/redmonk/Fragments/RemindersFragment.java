@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.nvurgaft.redmonk.Adapters.RemindersCursorAdapter;
 import com.nvurgaft.redmonk.Dialogs.ConfirmDialog;
@@ -98,17 +97,19 @@ public class RemindersFragment extends Fragment implements View.OnClickListener 
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Cursor data = (Cursor) parent.getItemAtPosition(position);
 
-                Toast.makeText(getActivity(), "clicked at reminder " + data.getInt(1), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getActivity(), "clicked at reminder " + data.getInt(1), Toast.LENGTH_SHORT).show();
                 // open a dialog to edit selected reminder
                 EditReminderDialog editReminderDialog = new EditReminderDialog();
 
                 Bundle selectedReminderBundle = new Bundle();
                 selectedReminderBundle.putBoolean("isEdit", true);
-                selectedReminderBundle.putLong("rid", data.getInt(1));
-                selectedReminderBundle.putLong("hour", data.getInt(2));
-                selectedReminderBundle.putLong("minute", data.getInt(3));
+                selectedReminderBundle.putLong("rid", data.getLong(1));
+                selectedReminderBundle.putInt("hour", data.getInt(2));
+                selectedReminderBundle.putInt("minute", data.getInt(3));
                 selectedReminderBundle.putString("todo", data.getString(4));
                 selectedReminderBundle.putString("resolved", data.getString(5));
+
+                // show the edit reminder dialog fragment
                 editReminderDialog.setArguments(selectedReminderBundle);
                 editReminderDialog.show(getFragmentManager(), "EditReminderDialog");
             }
@@ -118,16 +119,28 @@ public class RemindersFragment extends Fragment implements View.OnClickListener 
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 Cursor data = (Cursor) parent.getItemAtPosition(position);
 
-                Toast.makeText(getActivity(), "long clicked at reminder " + data.getString(1), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getActivity(), "long clicked at reminder " + data.getString(1), Toast.LENGTH_SHORT).show();
                 ConfirmDialog confirmDialog = new ConfirmDialog();
                 long reminderId = data.getLong(1);
 
                 Bundle confirmDialogBundle = new Bundle();
                 confirmDialogBundle.putString("content", getString(R.string.confirm_delete_reminder_text));
-                confirmDialogBundle.putString("identifier", String.valueOf(reminderId));
+                confirmDialogBundle.putString("identifier", String.valueOf(id));
+                confirmDialogBundle.putString("tag", "reminderPrompt");
                 confirmDialog.setArguments(confirmDialogBundle);
                 confirmDialog.show(getFragmentManager(), "ConfirmDialog");
                 return true;
+            }
+        });
+        listView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                db = ConnectionManager.getConnection(getActivity());
+                if (remindersCursorAdapter != null) {
+                    remindersCursorAdapter.changeCursor(sqlAccess.getRemindersCursor(db));
+                    remindersCursorAdapter.notifyDataSetChanged();
+                }
+                db.close();
             }
         });
 

@@ -265,6 +265,23 @@ public class SqlAccess extends SQLiteOpenHelper {
     }
 
     /**
+     *  Updates a daily consumption record by date
+     *
+     * @param db
+     * @param dailyConsumption
+     * @return retuns the amount of records affected by the update (should always be 0 or 1)
+     */
+    public long updateDailyConsumptionByDate(SQLiteDatabase db, DailyConsumption dailyConsumption) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(DATE, dailyConsumption.getDate());
+        contentValues.put(CALORIES, dailyConsumption.getCalories());
+        contentValues.put(CARBOHYDRATES, dailyConsumption.getCarbohydrates());
+        contentValues.put(PROTEINS, dailyConsumption.getProteins());
+        contentValues.put(FATS, dailyConsumption.getFats());
+        return db.update(DAILY_CONSUMPTION_TABLE, contentValues, DATE + " = " + dailyConsumption.getDate(), null);
+    }
+
+    /**
      * Returns the daily consumption for a provided date for a user
      *
      * @param db

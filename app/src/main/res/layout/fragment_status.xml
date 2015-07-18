@@ -110,6 +110,6 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:text="@string/save_button" />
+        android:text="@string/save" />
 
 </RelativeLayout>

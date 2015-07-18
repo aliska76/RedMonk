@@ -66,7 +66,7 @@ public class RemindersCursorAdapter extends CursorAdapter {
         if (String.valueOf(time_minute).length() == 1) {
             sb.append(0);
         }
-        sb.append(time_hour);
+        sb.append(time_minute);
         if (Integer.valueOf(time_hour) > 12) {
             sb.append(" (").append(hour - 12).append(":");
             sb.append(String.valueOf(time_minute).length() == 1 ? 0 : "").append(minute);
