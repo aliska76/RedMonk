@@ -5,6 +5,9 @@
 
     <string name="hello_world">Hello world!</string>
 
+    <!-- Main Activity -->
+    <string name="intro_string">Choose an option from the left navigation drawer</string>
+
     <!-- Status Fragment -->
     <string name="status_fragment_title">Status</string>
 
@@ -80,15 +83,25 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
 
-    <!-- Preferences -->
-    <string name="settings_category">Category</string>
-    <string name="setting_one_summery">Setting Title</string>
-    <string name="setting_one_title">Setting Summery</string>
-    <string name="setting_two_summery">Another Setting Title</string>
-    <string name="setting_two_title">Another Setting Summery</string>
+    <!-- Preferences Activity-->
+    <string name="settings_category_clear_data">Clear Data</string>
+    <string name="settings_category_about">About</string>
 
-    <string name="setting_delete_summery">Delete Data</string>
-    <string name="setting_delete_title">Remove stored application records</string>
+    <!-- Preferences Activity - Clear Data -->
+    <string name="setting_clear_contacts_title">Clear contacts</string>
+    <string name="setting_clear_contacts_summary">Deletes all stored contacts</string>
+    <string name="setting_clear_reminders_title">Clear Reminders</string>
+    <string name="setting_clear_reminders_summary">Deletes all stored reminders</string>
+    <string name="setting_clear_consumptions_title">Clear Consumption Log</string>
+    <string name="setting_clear_consumptions_summary">Deletes all daily consumptions logs</string>
+    <string name="setting_clear_all_title">Clear all data</string>
+    <string name="setting_clear_all_summary">Remove all stored user information</string>
+
+    <!-- Preferences Activity - About -->
+    <string name="setting_visit_site_title">Visit Website</string>
+    <string name="setting_visit_site_summary">Opens a web view to the Project\'s Github page</string>
+    <string name="setting_about_title">Red Monk</string>
+    <string name="setting_about_summary">Open source license, written by Koby Vurgaft 2015</string>
 
     <string name="remove_data_contacts">Delete all contacts</string>
     <string name="remove_data_reminders">Delete all reminders</string>

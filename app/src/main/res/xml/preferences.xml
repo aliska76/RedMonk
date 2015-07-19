@@ -2,28 +2,41 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory
-        android:key="pref_key_storage_settings"
-        android:title="@string/settings_category">
+        android:key="pref_key_category_clears"
+        android:title="@string/settings_category_clear_data">
         <Preference
-            android:key="pref_key_setting_one"
-            android:summary="@string/setting_one_summery"
-            android:title="@string/setting_one_title" />
+            android:key="pref_key_clear_contacts"
+            android:summary="@string/setting_clear_contacts_summary"
+            android:title="@string/setting_clear_contacts_title" />
         <Preference
-            android:key="pref_key_setting_two"
-            android:summary="@string/setting_two_summery"
-            android:title="@string/setting_two_title" />
-        <PreferenceList
-            android:key="pref_key_setting_delete"
-            android:persistent="false"
-            android:summary="@string/setting_delete_summery"
-            android:title="@string/setting_delete_title">
-            <ListPreference
-                android:key="pref_key_setting_delete_contacts"
-                android:title="@string/remove_data_contacts" />
-            <ListPreference
-                android:key="pref_key_setting_delete_reminders"
-                android:title="@string/remove_data_reminders" />
-
-        </PreferenceList>
+            android:key="pref_key_clear_reminders"
+            android:summary="@string/setting_clear_reminders_summary"
+            android:title="@string/setting_clear_reminders_title" />
+        <Preference
+            android:key="pref_key_clear_dc"
+            android:summary="@string/setting_clear_consumptions_summary"
+            android:title="@string/setting_clear_consumptions_title" />
+        <Preference
+            android:key="pref_key_clear_all"
+            android:summary="@string/setting_clear_all_summary"
+            android:title="@string/setting_clear_all_title" />
     </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="pref_key_category_about"
+        android:title="@string/settings_category_about">
+        <Preference
+            android:key="pref_key_visit_site"
+            android:summary="@string/setting_visit_site_summary"
+            android:title="@string/setting_visit_site_title">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/nvurgaft/RedMonk" />
+        </Preference>
+        <Preference
+            android:key="pref_key_about"
+            android:summary="@string/setting_about_summary"
+            android:title="@string/setting_about_title" />
+    </PreferenceCategory>
+
 </PreferenceScreen>

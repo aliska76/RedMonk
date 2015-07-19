@@ -47,6 +47,7 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
      * Remember the position of the selected item.
      */
     private static final String STATE_SELECTED_POSITION = "selected_navigation_drawer_position";
+    private static final String LAST_FRAGMENT_USED = "last_fragment_used";
 
     /**
      * Per the design guidelines, you should show the drawer on launch until the user manually
@@ -63,6 +64,7 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
      * Helper component that ties the action bar to the navigation drawer.
      */
     private ActionBarDrawerToggle mActionBarDrawerToggle;
+    private SharedPreferences sp;
 
     private DrawerLayout mDrawerLayout;
     private RecyclerView mDrawerList;
@@ -78,11 +80,14 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
 
         // Read in the flag indicating whether or not the user has demonstrated awareness of the
         // drawer. See PREF_USER_LEARNED_DRAWER for details.
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        sp = getActivity().getSharedPreferences(Values.PREFS, 0);
         mUserLearnedDrawer = sp.getBoolean(PREF_USER_LEARNED_DRAWER, false);
 
         if (savedInstanceState != null) {
             mCurrentSelectedPosition = savedInstanceState.getInt(STATE_SELECTED_POSITION);
+            if (mCurrentSelectedPosition==0) {
+                mCurrentSelectedPosition = sp.getInt(LAST_FRAGMENT_USED, 0);
+            }
             mFromSavedInstanceState = true;
         }
     }
@@ -141,6 +146,8 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
         }
 
         if (fragment!=null) {
+            sp.edit().putInt(LAST_FRAGMENT_USED, position);
+            sp.edit().apply();
             fragmentManager.beginTransaction()
                     .replace(R.id.container, fragment)
                     .commit();
