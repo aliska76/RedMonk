@@ -4,22 +4,34 @@
     <PreferenceCategory
         android:key="pref_key_category_clears"
         android:title="@string/settings_category_clear_data">
-        <Preference
+        <com.nvurgaft.redmonk.Dialogs.CustomDialogPreference
             android:key="pref_key_clear_contacts"
             android:summary="@string/setting_clear_contacts_summary"
-            android:title="@string/setting_clear_contacts_title" />
-        <Preference
+            android:title="@string/setting_clear_contacts_title"
+            android:dialogMessage="@string/warning"
+            android:positiveButtonText="Yes"
+            android:negativeButtonText="No" />
+        <com.nvurgaft.redmonk.Dialogs.CustomDialogPreference
             android:key="pref_key_clear_reminders"
             android:summary="@string/setting_clear_reminders_summary"
-            android:title="@string/setting_clear_reminders_title" />
-        <Preference
+            android:title="@string/setting_clear_reminders_title"
+            android:dialogMessage="@string/warning"
+            android:positiveButtonText="Yes"
+            android:negativeButtonText="No"/>
+        <com.nvurgaft.redmonk.Dialogs.CustomDialogPreference
             android:key="pref_key_clear_dc"
             android:summary="@string/setting_clear_consumptions_summary"
-            android:title="@string/setting_clear_consumptions_title" />
-        <Preference
+            android:title="@string/setting_clear_consumptions_title"
+            android:dialogMessage="@string/warning"
+            android:positiveButtonText="Yes"
+            android:negativeButtonText="No"/>
+        <com.nvurgaft.redmonk.Dialogs.CustomDialogPreference
             android:key="pref_key_clear_all"
             android:summary="@string/setting_clear_all_summary"
-            android:title="@string/setting_clear_all_title" />
+            android:title="@string/setting_clear_all_title"
+            android:dialogMessage="@string/warning"
+            android:positiveButtonText="Yes"
+            android:negativeButtonText="No"/>
     </PreferenceCategory>
 
     <PreferenceCategory

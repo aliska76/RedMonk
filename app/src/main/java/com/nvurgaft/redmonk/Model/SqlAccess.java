@@ -235,6 +235,15 @@ public class SqlAccess extends SQLiteOpenHelper {
     }
 
     /**
+     *  Truncates the reminders table
+     * @param db
+     * @return
+     */
+    public int deleteAllReminders(SQLiteDatabase db) {
+        return db.delete(REMINDER_TABLE, "1", null);
+    }
+
+    /**
      * Returns a cursor holding all reminders records
      * @param db
      * @return
@@ -337,6 +346,10 @@ public class SqlAccess extends SQLiteOpenHelper {
         return db.rawQuery("SELECT * FROM " + DAILY_CONSUMPTION_TABLE + ";", null);
     }
 
+    public int deleteAllConsumptionLogs(SQLiteDatabase db) {
+        return db.delete(DAILY_CONSUMPTION_TABLE, "1", null);
+    }
+
     /********************************
      *  EMERGENCY CONTACTS METHODS  *
      ********************************/
@@ -425,7 +438,7 @@ public class SqlAccess extends SQLiteOpenHelper {
      * @param db
      * @return number of rows deleted
      */
-    public int removeAllContacts(SQLiteDatabase db) {
+    public int deleteAllContacts(SQLiteDatabase db) {
         return db.delete(CONTACTS_TABLE, "1", null);
     }
 

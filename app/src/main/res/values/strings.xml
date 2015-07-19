@@ -94,8 +94,10 @@
     <string name="setting_clear_reminders_summary">Deletes all stored reminders</string>
     <string name="setting_clear_consumptions_title">Clear Consumption Log</string>
     <string name="setting_clear_consumptions_summary">Deletes all daily consumptions logs</string>
-    <string name="setting_clear_all_title">Clear all data</string>
+    <string name="setting_clear_all_title">Clear all user data</string>
     <string name="setting_clear_all_summary">Remove all stored user information</string>
+
+    <string name="warning">This action is not recoverable!</string>
 
     <!-- Preferences Activity - About -->
     <string name="setting_visit_site_title">Visit Website</string>
