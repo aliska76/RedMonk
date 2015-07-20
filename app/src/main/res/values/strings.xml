@@ -20,6 +20,7 @@
 
     <!-- Daily Consumption Fragment -->
     <string name="dc_fragment_title">Daily Consumption Information</string>
+    <string name="dc_new_log">New Log</string>
 
     <!-- Daily Consumption Dialog -->
     <string name="dc_enter_dc">Enter Daily Consumption</string>

@@ -2,20 +2,26 @@ package com.nvurgaft.redmonk.Fragments;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
 import com.nvurgaft.redmonk.Adapters.DailyConsumptionCursorAdapter;
+import com.nvurgaft.redmonk.Dialogs.ConfirmDialog;
+import com.nvurgaft.redmonk.Dialogs.EditDailyConsumptionDialog;
 import com.nvurgaft.redmonk.Model.ConnectionManager;
 import com.nvurgaft.redmonk.Model.SqlAccess;
 import com.nvurgaft.redmonk.OnFragmentInteractionListener;
 import com.nvurgaft.redmonk.R;
+import com.nvurgaft.redmonk.Values;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,7 +31,7 @@ import com.nvurgaft.redmonk.R;
  * Use the {@link DailyConsumptionFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class DailyConsumptionFragment extends Fragment {
+public class DailyConsumptionFragment extends Fragment implements View.OnClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -41,7 +47,7 @@ public class DailyConsumptionFragment extends Fragment {
     private SqlAccess sqlAccess;
     private DailyConsumptionCursorAdapter dailyConsumptionCursorAdapter;
     private ListView listView;
-    private Button newDCButton;
+    private Button newDcButton;
 
     /**
      * Use this factory method to create a new instance of
@@ -83,6 +89,51 @@ public class DailyConsumptionFragment extends Fragment {
         sqlAccess = new SqlAccess(getActivity());
         db = ConnectionManager.getConnection(getActivity());
         dailyConsumptionCursorAdapter = new DailyConsumptionCursorAdapter(getActivity(), sqlAccess.getAllDailyConsumptionsCursor(db));
+
+        listView = (ListView) view.findViewById(R.id.dcListView);
+        listView.setAdapter(dailyConsumptionCursorAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Cursor data = (Cursor) parent.getItemAtPosition(position);
+
+                //Toast.makeText(getActivity(), "clicked at contact " + data.getString(1), Toast.LENGTH_SHORT).show();
+                // open a dialog to edit selected contact
+                EditDailyConsumptionDialog editContactDialog = new EditDailyConsumptionDialog();
+
+                Bundle selectedContactBundle = new Bundle();
+                selectedContactBundle.putBoolean("isEdit", true);
+                selectedContactBundle.putLong("name", data.getLong(1));
+                selectedContactBundle.putInt("calories", data.getInt(2));
+                selectedContactBundle.putInt("carbs", data.getInt(3));
+                selectedContactBundle.putInt("proteins", data.getInt(4));
+                selectedContactBundle.putInt("fats", data.getInt(5));
+
+                // show the edit contact dialog fragment
+                editContactDialog.setArguments(selectedContactBundle);
+                editContactDialog.show(getFragmentManager(), "EditDailyConsumptionDialog");
+            }
+        });
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                Cursor data = (Cursor) parent.getItemAtPosition(position);
+
+                ConfirmDialog confirmDialog = new ConfirmDialog();
+                long logDayDate = data.getLong(1);
+
+                Bundle confirmDialogBundle = new Bundle();
+                confirmDialogBundle.putString("content", getString(R.string.confirm_delete_contact_text) + " for day " + logDayDate);
+                confirmDialogBundle.putString("identifier", String.valueOf(logDayDate));
+                confirmDialogBundle.putString("tag", "contactPrompt");
+                confirmDialog.setArguments(confirmDialogBundle);
+                confirmDialog.show(getFragmentManager(), "ConfirmDialog");
+                return true;
+            }
+        });
+
+        newDcButton = (Button) view.findViewById(R.id.dcNewLogButton);
+        newDcButton.setOnClickListener(this);
 
         return view;
     }
@@ -127,4 +178,15 @@ public class DailyConsumptionFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.dcNewLogButton:
+                EditDailyConsumptionDialog editDcDialog = new EditDailyConsumptionDialog();
+                editDcDialog.show(getFragmentManager(), "EditDailyConsumptionDialog");
+                break;
+            default:
+                Log.d(Values.LOG, "Invalid value selected");
+        }
+    }
 }

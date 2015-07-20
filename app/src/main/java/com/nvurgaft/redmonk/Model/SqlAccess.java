@@ -181,11 +181,12 @@ public class SqlAccess extends SQLiteOpenHelper {
 
     /**
      * Returns all user logs
+     *
      * @param db
      * @return a cursor of all user logs from the database
      */
     public Cursor getAllUserLogsCursor(SQLiteDatabase db) {
-       return db.rawQuery("SELECT * FROM " + USER_TABLE + ";", null);
+        return db.rawQuery("SELECT * FROM " + USER_TABLE + ";", null);
     }
 
     /****************************
@@ -193,7 +194,8 @@ public class SqlAccess extends SQLiteOpenHelper {
      ****************************/
 
     /**
-     *  Inserts a new reminder record to databse
+     * Inserts a new reminder record to databse
+     *
      * @param db
      * @param newReminder
      * @return
@@ -209,7 +211,8 @@ public class SqlAccess extends SQLiteOpenHelper {
     }
 
     /**
-     *  Edits a reminder using the r_id type
+     * Edits a reminder using the r_id type
+     *
      * @param db
      * @param newReminder
      * @return
@@ -225,7 +228,8 @@ public class SqlAccess extends SQLiteOpenHelper {
     }
 
     /**
-     *  Deletes a reminders using the _id type
+     * Deletes a reminders using the _id type
+     *
      * @param db
      * @param id
      * @return
@@ -235,7 +239,8 @@ public class SqlAccess extends SQLiteOpenHelper {
     }
 
     /**
-     *  Truncates the reminders table
+     * Truncates the reminders table
+     *
      * @param db
      * @return
      */
@@ -245,6 +250,7 @@ public class SqlAccess extends SQLiteOpenHelper {
 
     /**
      * Returns a cursor holding all reminders records
+     *
      * @param db
      * @return
      */
@@ -274,7 +280,7 @@ public class SqlAccess extends SQLiteOpenHelper {
     }
 
     /**
-     *  Updates a daily consumption record by date
+     * Updates a daily consumption record by date
      *
      * @param db
      * @param dailyConsumption
@@ -297,21 +303,8 @@ public class SqlAccess extends SQLiteOpenHelper {
      * @param date
      * @return return the daily consumption for a user for a specific date
      */
-    public DailyConsumption getDailyConsumptionForDate(SQLiteDatabase db, String date) {
-        Cursor cursor = db.rawQuery("SELECT * FROM " + DAILY_CONSUMPTION_TABLE + " WHERE " + DATE + " = '" + date + "';", null);
-        if (cursor.getCount() > 0) {
-            cursor.moveToFirst();
-            DailyConsumption dailyConsumption = new DailyConsumption();
-            dailyConsumption.setDate(cursor.getInt(0));
-            dailyConsumption.setCalories(cursor.getInt(1));
-            dailyConsumption.setCarbohydrates(cursor.getInt(2));
-            dailyConsumption.setProteins(cursor.getInt(3));
-            dailyConsumption.setFats(cursor.getInt(4));
-            cursor.close();
-            return dailyConsumption;
-        }
-        cursor.close();
-        return null;
+    public Cursor getDailyConsumptionForDate(SQLiteDatabase db, String date) {
+        return db.rawQuery("SELECT * FROM " + DAILY_CONSUMPTION_TABLE + " WHERE " + DATE + " = '" + date + "';", null);
     }
 
     /**
@@ -339,6 +332,7 @@ public class SqlAccess extends SQLiteOpenHelper {
 
     /**
      * Returns all daily consumptions
+     *
      * @param db
      * @return all daily consumptions from the database
      */
@@ -414,6 +408,7 @@ public class SqlAccess extends SQLiteOpenHelper {
 
     /**
      * Returns a cursor of all contacts
+     *
      * @param db
      * @return cursor of all contacts in database
      */

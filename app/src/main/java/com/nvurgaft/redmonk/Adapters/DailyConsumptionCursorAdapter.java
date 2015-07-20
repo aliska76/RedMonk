@@ -29,8 +29,10 @@ public class DailyConsumptionCursorAdapter extends CursorAdapter {
 
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
-        TextView calorieAndTimeTextView = (TextView) view.findViewById(R.id.dateAndTotalCaloriesTextView);
-        TextView calorieDescriptionTextView = (TextView) view.findViewById(R.id.calorieDescriptionTextView);
+        TextView dateTextView = (TextView) view.findViewById(R.id.dateTextView);
+        TextView calorieTextView = (TextView) view.findViewById(R.id.totalCaloriesTextView);
+        TextView calorieDescriptionTextView = (TextView) view.findViewById(R.id.caloriesDescriptionTextView);
+        TextView describer = (TextView) view.findViewById(R.id.dcDescriberTextView);
 
         String date = cursor.getString(1);
         int calories = cursor.getInt(2);
@@ -38,8 +40,14 @@ public class DailyConsumptionCursorAdapter extends CursorAdapter {
         int proteins = cursor.getInt(4);
         int fats = cursor.getInt(5);
 
-        calorieAndTimeTextView.setText(date + " - Calories : " + calories);
+        dateTextView.setText("Date : " + date);
+        calorieTextView.setText("Total Calories : " + calories);
         calorieDescriptionTextView.setText("Carbohydrates : " + carbohydrates + " ,Proteins : " + proteins + " and Fats : " + fats);
+
+        // daily description here
+        StringBuilder sb = new StringBuilder();
+
+        describer.setText(sb.toString());
     }
 
     @Override

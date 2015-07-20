@@ -6,6 +6,7 @@ import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.util.Log;
 import android.widget.RemoteViews;
 
 
@@ -96,14 +97,18 @@ public class RedMonkEmergencyWidget extends AppWidgetProvider {
         switch (intent.getAction()) {
             case "CALL_1":
                 i.setData(Uri.parse("tel:" + cFirst));
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(i);
             case "CALL_2":
                 i.setData(Uri.parse("tel:" + cSecond));
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(i);
             case "CALL_3":
                 i.setData(Uri.parse("tel:" + cThird));
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(i);
+            default:
+                Log.d(Values.LOG, "Invalid parameters to start call activity");
         }
-
-        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(i);
-
     }
 }

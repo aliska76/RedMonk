@@ -40,6 +40,7 @@ public class EditDailyConsumptionDialog extends DialogFragment {
         fatsEditText = (EditText) dialogView.findViewById(R.id.fatsEditText);
 
         boolean isEdit = false;
+        long date = 0L;
         int calories = 0;
         int carbs = 0;
         int proteins = 0;
@@ -48,17 +49,18 @@ public class EditDailyConsumptionDialog extends DialogFragment {
         Bundle passedBundle = getArguments();
         if (passedBundle != null) {
             isEdit = passedBundle.getBoolean("isEdit", false);
-            calories = passedBundle.getInt("name", 0);
-            carbs = passedBundle.getInt("role", 0);
-            proteins = passedBundle.getInt("number1", 0);
-            fats = passedBundle.getInt("number2", 0);
+            date = passedBundle.getLong("date", 0);
+            calories = passedBundle.getInt("calories", 0);
+            carbs = passedBundle.getInt("carbs", 0);
+            proteins = passedBundle.getInt("proteins", 0);
+            fats = passedBundle.getInt("fats", 0);
         }
 
         final boolean action = isEdit;
-        caloriesEditText.setText(calories );
-        carbsEditText.setText(carbs);
-        proteinsEditText.setText(proteins);
-        fatsEditText.setText(fats);
+        caloriesEditText.setText(String.valueOf(calories ));
+        carbsEditText.setText(String.valueOf(carbs));
+        proteinsEditText.setText(String.valueOf(proteins));
+        fatsEditText.setText(String.valueOf(fats));
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         if (isEdit) {
