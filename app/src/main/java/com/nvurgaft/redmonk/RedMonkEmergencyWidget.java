@@ -40,13 +40,20 @@ public class RedMonkEmergencyWidget extends AppWidgetProvider {
         // Enter relevant functionality for when the last widget is disabled
     }
 
-    static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
-                                int appWidgetId) {
+    static void updateAppWidget(Context context, AppWidgetManager appWidgetManager, int appWidgetId) {
 
-        CharSequence widgetText = RedMonkEmergencyWidgetConfigureActivity.loadTitlePref(context, appWidgetId);
+        String cName = RedMonkEmergencyWidgetConfigureActivity.loadTitlePref(context, appWidgetId, "_name");
+        String cRole = RedMonkEmergencyWidgetConfigureActivity.loadTitlePref(context, appWidgetId, "_role");
+        String cFirst = RedMonkEmergencyWidgetConfigureActivity.loadTitlePref(context, appWidgetId, "_first");
+        String cSecond = RedMonkEmergencyWidgetConfigureActivity.loadTitlePref(context, appWidgetId, "_second");
+        String cThird = RedMonkEmergencyWidgetConfigureActivity.loadTitlePref(context, appWidgetId, "_third");
+
         // Construct the RemoteViews object
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.red_monk_emergency_widget);
-        views.setTextViewText(R.id.appwidget_text, widgetText);
+        views.setTextViewText(R.id.nameAndRoleTextView, cName + " - " + cRole);
+        views.setTextViewText(R.id.firstContactTextView, cFirst);
+        views.setTextViewText(R.id.secondContactTextView, cSecond);
+        views.setTextViewText(R.id.thirdContactTextView, cThird);
 
         // Instruct the widget manager to update the widget
         appWidgetManager.updateAppWidget(appWidgetId, views);

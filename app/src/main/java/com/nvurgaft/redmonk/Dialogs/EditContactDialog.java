@@ -9,10 +9,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.nvurgaft.redmonk.Entities.Contact;
-import com.nvurgaft.redmonk.Logic.Validators;
 import com.nvurgaft.redmonk.R;
 
 /**
@@ -82,29 +80,15 @@ public class EditContactDialog extends DialogFragment {
                         String dialogSecondNumber = secondNumberEditText.getText().toString();
                         String dialogThirdNumber = thirdNumberEditText.getText().toString();
 
+                        Contact contact = new Contact();
+                        contact.setContactName(dialogContact);
+                        contact.setContactRole(dialogContactRole);
+                        contact.setFirstNumber(dialogFirstNumber);
+                        contact.setSecondNumber(dialogSecondNumber);
+                        contact.setThirdNumber(dialogThirdNumber);
 
-                        if (!Validators.validateName(dialogContact)) {
-                            Toast.makeText(getActivity(), "Invalid name", Toast.LENGTH_SHORT).show();
-                        } else if (!Validators.validatePhoneNumber(dialogContactRole)) {
-                            Toast.makeText(getActivity(), "Invalid number", Toast.LENGTH_SHORT).show();
-                        } else if (!Validators.validatePhoneNumber(dialogFirstNumber)) {
-                            Toast.makeText(getActivity(), "Invalid first number", Toast.LENGTH_SHORT).show();
-                        } else if (!Validators.validatePhoneNumber(dialogSecondNumber) && !dialogSecondNumber.isEmpty()) {
-                            Toast.makeText(getActivity(), "Invalid second number", Toast.LENGTH_SHORT).show();
-                        } else if (!Validators.validatePhoneNumber(dialogThirdNumber) && !dialogThirdNumber.isEmpty()) {
-                            Toast.makeText(getActivity(), "Invalid third number", Toast.LENGTH_SHORT).show();
-                        } else {
-                            Contact contact = new Contact();
-                            contact.setContactName(dialogContact);
-                            contact.setContactRole(dialogContactRole);
-                            contact.setFirstNumber(dialogFirstNumber);
-                            contact.setSecondNumber(dialogSecondNumber);
-                            contact.setThirdNumber(dialogThirdNumber);
-
-                            // send the contact back to the activity to be registered
-                            mListener.onDialogPositiveClick(EditContactDialog.this, contact, action);
-                        }
-
+                        // send the contact back to the activity to be registered
+                        mListener.onDialogPositiveClick(EditContactDialog.this, contact, action);
                     }
                 })
                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {

@@ -5,17 +5,85 @@
     android:padding="@dimen/widget_margin">
 
     <TextView
-        android:id="@+id/appwidget_text"
+        android:id="@+id/firstContactTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:layout_margin="8dp"
         android:background="#09C"
         android:contentDescription="@string/appwidget_text"
-        android:text="@string/appwidget_text"
         android:textColor="#ffffff"
-        android:textSize="24sp"
-        android:textStyle="bold|italic" />
+        android:text="aaa"
+        android:textSize="20sp"
+        android:textStyle="bold|italic"
+        android:layout_below="@+id/nameAndRoleTextView" />
+    <TextView
+        android:id="@+id/secondContactTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#09C"
+        android:contentDescription="@string/appwidget_text"
+        android:textColor="#ffffff"
+        android:text="bbb"
+        android:textSize="20sp"
+        android:textStyle="bold|italic"
+        android:layout_below="@+id/numberBtn1" />
+    <TextView
+        android:id="@+id/thirdContactTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#09C"
+        android:contentDescription="@string/appwidget_text"
+        android:textColor="#ffffff"
+        android:text="ccc"
+        android:textSize="20sp"
+        android:textStyle="bold|italic"
+        android:layout_below="@+id/numberBtn2" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/numberBtn3"
+        android:text="@string/call"
+        android:layout_marginLeft="10dp"
+        android:layout_below="@+id/numberBtn2"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/numberBtn2"
+        android:text="@string/call"
+        android:layout_below="@+id/numberBtn1"
+        android:layout_alignLeft="@+id/numberBtn3"
+        android:layout_alignStart="@+id/numberBtn3" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/numberBtn1"
+        android:text="@string/call"
+        android:layout_below="@+id/nameAndRoleTextView"
+        android:layout_alignLeft="@+id/numberBtn2"
+        android:layout_alignStart="@+id/numberBtn2" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/config_widget_title"
+        android:textColor="#ffffff"
+        android:textSize="22sp"
+        android:id="@+id/widgetTitleTextView"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#dd0"
+        android:id="@+id/nameAndRoleTextView"
+        android:layout_below="@+id/widgetTitleTextView"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>
