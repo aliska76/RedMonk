@@ -1,8 +1,11 @@
 package com.nvurgaft.redmonk;
 
+import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.widget.RemoteViews;
 
 
@@ -11,6 +14,8 @@ import android.widget.RemoteViews;
  * App Widget Configuration implemented in {@link RedMonkEmergencyWidgetConfigureActivity RedMonkEmergencyWidgetConfigureActivity}
  */
 public class RedMonkEmergencyWidget extends AppWidgetProvider {
+
+    static int widgetId;
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
@@ -42,6 +47,8 @@ public class RedMonkEmergencyWidget extends AppWidgetProvider {
 
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager, int appWidgetId) {
 
+        widgetId = appWidgetId;
+
         String cName = RedMonkEmergencyWidgetConfigureActivity.loadTitlePref(context, appWidgetId, "_name");
         String cRole = RedMonkEmergencyWidgetConfigureActivity.loadTitlePref(context, appWidgetId, "_role");
         String cFirst = RedMonkEmergencyWidgetConfigureActivity.loadTitlePref(context, appWidgetId, "_first");
@@ -55,8 +62,48 @@ public class RedMonkEmergencyWidget extends AppWidgetProvider {
         views.setTextViewText(R.id.secondContactTextView, cSecond);
         views.setTextViewText(R.id.thirdContactTextView, cThird);
 
+        // call intent
+        Intent callIntent1 = new Intent(context, RedMonkEmergencyWidget.class);
+        callIntent1.setAction("CALL_1");
+        Intent callIntent2 = new Intent(context, RedMonkEmergencyWidget.class);
+        callIntent2.setAction("CALL_2");
+        Intent callIntent3 = new Intent(context, RedMonkEmergencyWidget.class);
+        callIntent3.setAction("CALL_3");
+
+        PendingIntent pendingCallIntent1 = PendingIntent.getBroadcast(context, 0, callIntent1, 0);
+        PendingIntent pendingCallIntent2 = PendingIntent.getBroadcast(context, 0, callIntent2, 0);
+        PendingIntent pendingCallIntent3 = PendingIntent.getBroadcast(context, 0, callIntent3, 0);
+
+        views.setOnClickPendingIntent(R.id.callButton1, pendingCallIntent1);
+        views.setOnClickPendingIntent(R.id.callButton2, pendingCallIntent2);
+        views.setOnClickPendingIntent(R.id.callButton3, pendingCallIntent3);
+
         // Instruct the widget manager to update the widget
         appWidgetManager.updateAppWidget(appWidgetId, views);
     }
-}
 
+    @Override
+    public void onReceive(Context context, Intent intent) {
+
+        super.onReceive(context, intent);
+
+        String cFirst = RedMonkEmergencyWidgetConfigureActivity.loadTitlePref(context, widgetId, "_first");
+        String cSecond = RedMonkEmergencyWidgetConfigureActivity.loadTitlePref(context, widgetId, "_second");
+        String cThird = RedMonkEmergencyWidgetConfigureActivity.loadTitlePref(context, widgetId, "_third");
+
+        Intent i = new Intent(Intent.ACTION_CALL);
+
+        switch (intent.getAction()) {
+            case "CALL_1":
+                i.setData(Uri.parse("tel:" + cFirst));
+            case "CALL_2":
+                i.setData(Uri.parse("tel:" + cSecond));
+            case "CALL_3":
+                i.setData(Uri.parse("tel:" + cThird));
+        }
+
+        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(i);
+
+    }
+}

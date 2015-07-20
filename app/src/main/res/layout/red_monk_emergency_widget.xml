@@ -9,9 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="#09C"
-        android:contentDescription="@string/appwidget_text"
         android:textColor="#ffffff"
-        android:text="aaa"
         android:textSize="20sp"
         android:textStyle="bold|italic"
         android:layout_below="@+id/nameAndRoleTextView" />
@@ -20,50 +18,46 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="#09C"
-        android:contentDescription="@string/appwidget_text"
         android:textColor="#ffffff"
-        android:text="bbb"
         android:textSize="20sp"
         android:textStyle="bold|italic"
-        android:layout_below="@+id/numberBtn1" />
+        android:layout_below="@+id/callButton1" />
     <TextView
         android:id="@+id/thirdContactTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="#09C"
-        android:contentDescription="@string/appwidget_text"
         android:textColor="#ffffff"
-        android:text="ccc"
         android:textSize="20sp"
         android:textStyle="bold|italic"
-        android:layout_below="@+id/numberBtn2" />
+        android:layout_below="@+id/callButton2" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/numberBtn3"
+        android:id="@+id/callButton1"
         android:text="@string/call"
         android:layout_marginLeft="10dp"
-        android:layout_below="@+id/numberBtn2"
+        android:layout_below="@+id/callButton2"
         android:layout_centerHorizontal="true" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/numberBtn2"
+        android:id="@+id/callButton2"
         android:text="@string/call"
-        android:layout_below="@+id/numberBtn1"
-        android:layout_alignLeft="@+id/numberBtn3"
-        android:layout_alignStart="@+id/numberBtn3" />
+        android:layout_below="@+id/callButton1"
+        android:layout_alignLeft="@+id/callButton3"
+        android:layout_alignStart="@+id/callButton3" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/numberBtn1"
+        android:id="@+id/callButton3"
         android:text="@string/call"
         android:layout_below="@+id/nameAndRoleTextView"
-        android:layout_alignLeft="@+id/numberBtn2"
-        android:layout_alignStart="@+id/numberBtn2" />
+        android:layout_alignLeft="@+id/callButton2"
+        android:layout_alignStart="@+id/callButton2" />
 
     <TextView
         android:layout_width="wrap_content"
