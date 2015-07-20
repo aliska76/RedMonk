@@ -99,6 +99,9 @@
 
     <string name="warning">This action is not recoverable!</string>
 
+    <!-- Emergency Widget -->
+    <string name="title">RedMonk Emergency Caller</string>
+
     <!-- Preferences Activity - About -->
     <string name="setting_visit_site_title">Visit Website</string>
     <string name="setting_visit_site_summary">Opens a web view to the Project\'s Github page</string>
@@ -112,4 +115,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_settings">SettingsActivity</string>
     <string name="placeholder">:: placeholder ::</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="configure">Configure</string>
+    <string name="add_widget">Add widget</string>
 </resources>
