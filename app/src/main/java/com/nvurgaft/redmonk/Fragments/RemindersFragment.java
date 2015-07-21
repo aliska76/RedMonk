@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ListView;
 
 import com.nvurgaft.redmonk.Adapters.RemindersCursorAdapter;
@@ -108,6 +109,9 @@ public class RemindersFragment extends Fragment implements View.OnClickListener 
                 selectedReminderBundle.putInt("minute", data.getInt(3));
                 selectedReminderBundle.putString("todo", data.getString(4));
                 selectedReminderBundle.putString("resolved", data.getString(5));
+
+                CheckBox cb = (CheckBox) view.findViewById(R.id.resolveCheckBox);
+
 
                 // show the edit reminder dialog fragment
                 editReminderDialog.setArguments(selectedReminderBundle);

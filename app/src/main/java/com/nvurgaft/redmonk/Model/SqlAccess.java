@@ -258,6 +258,17 @@ public class SqlAccess extends SQLiteOpenHelper {
         return db.rawQuery("SELECT * FROM " + REMINDER_TABLE + ";", null);
     }
 
+    /**
+     * Sets a specified row (using r_id) to be resolved or not
+     *
+     * @param db
+     * @param r_id
+     * @param resolved
+     */
+    public void setResolved(SQLiteDatabase db, long r_id, boolean resolved) {
+        db.execSQL("UPDATE TABLE " + REMINDER_TABLE + " SET resolve = " + (resolved ? 0 : 1) + " WHERE " + RID + " = " + r_id + ";");
+    }
+
     /************************************
      *  DAILY CONSUMPTION TABLE METHODS *
      ************************************/

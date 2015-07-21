@@ -17,6 +17,7 @@ import android.widget.ListView;
 import com.nvurgaft.redmonk.Adapters.DailyConsumptionCursorAdapter;
 import com.nvurgaft.redmonk.Dialogs.ConfirmDialog;
 import com.nvurgaft.redmonk.Dialogs.EditDailyConsumptionDialog;
+import com.nvurgaft.redmonk.Logic.AlarmManagerBroadcastReceiver;
 import com.nvurgaft.redmonk.Model.ConnectionManager;
 import com.nvurgaft.redmonk.Model.SqlAccess;
 import com.nvurgaft.redmonk.OnFragmentInteractionListener;
@@ -95,12 +96,10 @@ public class DailyConsumptionFragment extends Fragment implements View.OnClickLi
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Cursor data = (Cursor) parent.getItemAtPosition(position);
 
-                //Toast.makeText(getActivity(), "clicked at contact " + data.getString(1), Toast.LENGTH_SHORT).show();
+                Cursor data = (Cursor) parent.getItemAtPosition(position);
                 // open a dialog to edit selected contact
                 EditDailyConsumptionDialog editContactDialog = new EditDailyConsumptionDialog();
-
                 Bundle selectedContactBundle = new Bundle();
                 selectedContactBundle.putBoolean("isEdit", true);
                 selectedContactBundle.putLong("name", data.getLong(1));
@@ -117,11 +116,10 @@ public class DailyConsumptionFragment extends Fragment implements View.OnClickLi
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                Cursor data = (Cursor) parent.getItemAtPosition(position);
 
+                Cursor data = (Cursor) parent.getItemAtPosition(position);
                 ConfirmDialog confirmDialog = new ConfirmDialog();
                 long logDayDate = data.getLong(1);
-
                 Bundle confirmDialogBundle = new Bundle();
                 confirmDialogBundle.putString("content", getString(R.string.confirm_delete_contact_text) + " for day " + logDayDate);
                 confirmDialogBundle.putString("identifier", String.valueOf(logDayDate));
@@ -142,7 +140,7 @@ public class DailyConsumptionFragment extends Fragment implements View.OnClickLi
     public void onResume() {
         super.onResume();
         db = ConnectionManager.getConnection(getActivity());
-        dailyConsumptionCursorAdapter.changeCursor(sqlAccess.getRemindersCursor(db));
+        dailyConsumptionCursorAdapter.changeCursor(sqlAccess.getAllDailyConsumptionsCursor(db));
         dailyConsumptionCursorAdapter.notifyDataSetChanged();
         db.close();
     }
@@ -173,7 +171,7 @@ public class DailyConsumptionFragment extends Fragment implements View.OnClickLi
 
     public void refreshFragmentView() {
         if (dailyConsumptionCursorAdapter != null) {
-            dailyConsumptionCursorAdapter.changeCursor(sqlAccess.getRemindersCursor(db));
+            dailyConsumptionCursorAdapter.changeCursor(sqlAccess.getAllDailyConsumptionsCursor(db));
             dailyConsumptionCursorAdapter.notifyDataSetChanged();
         }
     }
