@@ -120,7 +120,7 @@ public class RedMonkEmergencyWidgetConfigureActivity extends Activity {
     // If there is no preference saved, get the default from a resource
     static String loadTitlePref(Context context, int appWidgetId, String suffix) {
         SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
-        String titleValue = prefs.getString(PREF_PREFIX_KEY + appWidgetId + "" + suffix, null);
+        String titleValue = prefs.getString(PREF_PREFIX_KEY + appWidgetId + suffix, null);
         if (titleValue != null) {
             return titleValue;
         } else {

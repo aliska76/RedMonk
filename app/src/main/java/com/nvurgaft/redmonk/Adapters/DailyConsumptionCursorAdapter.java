@@ -48,7 +48,7 @@ public class DailyConsumptionCursorAdapter extends CursorAdapter {
 
         // daily description here
         StringBuilder sb = new StringBuilder();
-        sb.append(""); // TODO: complete this
+        sb.append(""); // TODO: complete
         describer.setText(sb.toString());
     }
 

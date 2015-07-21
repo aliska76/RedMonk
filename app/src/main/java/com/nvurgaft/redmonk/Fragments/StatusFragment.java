@@ -39,12 +39,12 @@ public class StatusFragment extends Fragment implements View.OnClickListener {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
-    private SharedPreferences sharedPreferences;
+    public SharedPreferences sharedPreferences;
 
     private Button saveButton;
     private RadioGroup radioGroup;
     private RadioButton maleRadioButton, femaleRadioButton;
-    private EditText nameEditText;
+    private EditText nameEditText, heightEditText, weightEditText;
 
     /**
      * Use this factory method to create a new instance of
@@ -96,6 +96,15 @@ public class StatusFragment extends Fragment implements View.OnClickListener {
         femaleRadioButton.setOnClickListener(this);
 
         nameEditText = (EditText) view.findViewById(R.id.nameEditText);
+        heightEditText =  (EditText) view.findViewById(R.id.heightEditText);
+        weightEditText =  (EditText) view.findViewById(R.id.weightEditText);
+
+        sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
+        nameEditText.setText(sharedPreferences.getString("status_username", "Anon"));
+        heightEditText.setText(sharedPreferences.getString("status_height", "185"));
+        weightEditText.setText(sharedPreferences.getString("status_weight", "80"));
+        maleRadioButton.setChecked(sharedPreferences.getBoolean("status_isDude", false));
+        femaleRadioButton.setChecked(sharedPreferences.getBoolean("status_isDudette", false));
 
         // Inflate the layout for this fragment
         return view;
@@ -127,28 +136,19 @@ public class StatusFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
-
         switch(view.getId()) {
             case R.id.fragment_status_save_button:
-                // TODO: save
-                Toast.makeText(getActivity(), "Save", Toast.LENGTH_SHORT).show();
-
-                sharedPreferences = getActivity().getSharedPreferences(Values.PREFS, Context.MODE_PRIVATE);
-                sharedPreferences.edit().putString("username", nameEditText.getText().toString());
-                sharedPreferences.edit().commit();
-
-                break;
-            case R.id.radioMale:
-                // TODO: male
-                Toast.makeText(getActivity(), "Radio Male", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.radioFemale:
-                // TODO: female
-                Toast.makeText(getActivity(), "Radio Female", Toast.LENGTH_SHORT).show();
+                sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
+                sharedPreferences.edit().putString("status_username", nameEditText.getText().toString());
+                sharedPreferences.edit().putString("status_height", heightEditText.getText().toString());
+                sharedPreferences.edit().putString("status_weight", weightEditText.getText().toString());
+                sharedPreferences.edit().putBoolean("status_isDude", maleRadioButton.isChecked());
+                sharedPreferences.edit().putBoolean("status_isDudette", femaleRadioButton.isChecked());
+                sharedPreferences.edit().apply();
+                Toast.makeText(getActivity(), "Saved", Toast.LENGTH_SHORT).show();
                 break;
             default:
                 Log.d(Values.LOG, "Invalid value selected");
         }
     }
-
 }

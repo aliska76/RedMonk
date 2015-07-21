@@ -8,78 +8,80 @@
         android:id="@+id/firstContactTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/nameAndRoleTextView"
         android:background="#09C"
         android:textColor="#ffffff"
         android:textSize="20sp"
-        android:textStyle="bold|italic"
-        android:layout_below="@+id/nameAndRoleTextView" />
+        android:textStyle="bold|italic" />
+
     <TextView
         android:id="@+id/secondContactTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/callButton2"
         android:background="#09C"
         android:textColor="#ffffff"
         android:textSize="20sp"
-        android:textStyle="bold|italic"
-        android:layout_below="@+id/callButton2"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:textStyle="bold|italic" />
+
     <TextView
         android:id="@+id/thirdContactTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/callButton1"
         android:background="#09C"
         android:textColor="#ffffff"
         android:textSize="20sp"
-        android:textStyle="bold|italic"
-        android:layout_below="@+id/callButton3"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:textStyle="bold|italic" />
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:id="@+id/callButton1"
-        android:text="@string/call"
-        android:layout_marginLeft="10dp"
-        android:layout_below="@+id/callButton2"
-        android:layout_centerHorizontal="true" />
-
-    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/callButton2"
-        android:text="@string/call"
-        android:layout_below="@+id/callButton3"
-        android:layout_centerHorizontal="true"/>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/callButton3"
-        android:text="@string/call"
         android:layout_below="@+id/nameAndRoleTextView"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:text="@string/call" />
 
-    <TextView
+    <Button
+        android:id="@+id/callButton2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/config_widget_title"
-        android:textColor="#ffffff"
-        android:textSize="22sp"
+        android:layout_below="@+id/callButton1"
+        android:layout_centerHorizontal="true"
+        android:text="@string/call" />
+
+    <Button
+        android:id="@+id/callButton3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/callButton2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="10dp"
+        android:text="@string/call" />
+
+    <TextView
         android:id="@+id/widgetTitleTextView"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
-
-    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:text="@string/config_widget_title"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="#dd0"
+        android:textColor="#ffffff"
+        android:textSize="22sp" />
+
+    <TextView
         android:id="@+id/nameAndRoleTextView"
-        android:layout_below="@+id/widgetTitleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/widgetTitleTextView"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#dd0" />
 
 </RelativeLayout>

@@ -13,7 +13,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.nvurgaft.redmonk.Dialogs.ConfirmDialog;
 import com.nvurgaft.redmonk.Dialogs.EditContactDialog;
@@ -69,7 +68,6 @@ public class MainActivity extends ActionBarActivity
     @Override
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
-        Toast.makeText(this, "Menu item selected -> " + position, Toast.LENGTH_SHORT).show();
     }
 
 
@@ -133,10 +131,8 @@ public class MainActivity extends ActionBarActivity
 
         if (!isEdit) {
             sqlAccess.insertNewContact(db, contact);
-            Toast.makeText(this, "Contact saved", Toast.LENGTH_SHORT).show();
         } else {
             sqlAccess.updateContact(db, contact);
-            Toast.makeText(this, "Contact updated : " + contact.toString(), Toast.LENGTH_SHORT).show();
         }
 
         ((ContactsFragment) mNavigationDrawerFragment.getCurrentFragment()).refreshFragmentView();
@@ -148,10 +144,8 @@ public class MainActivity extends ActionBarActivity
 
         if (!isEdit) {
             sqlAccess.insertNewReminder(db, reminder);
-            Toast.makeText(this, "Reminder saved", Toast.LENGTH_SHORT).show();
         } else {
             sqlAccess.updateReminder(db, reminder);
-            Toast.makeText(this, "Reminder updated : " + reminder.getTodo(), Toast.LENGTH_SHORT).show();
         }
 
         ((RemindersFragment) mNavigationDrawerFragment.getCurrentFragment()).refreshFragmentView();
@@ -164,10 +158,8 @@ public class MainActivity extends ActionBarActivity
 
         if (!isEdit) {
             sqlAccess.insertDailyConsumption(db, dailyConsumption);
-            Toast.makeText(this, "Daily consumption saved", Toast.LENGTH_SHORT).show(); // TODO: remove after testing
         } else {
             sqlAccess.updateDailyConsumptionByDate(db, dailyConsumption);
-            Toast.makeText(this, "Daily consumption updated : " + dailyConsumption.toString(), Toast.LENGTH_SHORT).show();
         }
 
         ((DailyConsumptionFragment) mNavigationDrawerFragment.getCurrentFragment()).refreshFragmentView();
@@ -186,7 +178,6 @@ public class MainActivity extends ActionBarActivity
                 break;
             case "consumptionPrompt":
                 db = ConnectionManager.getConnection(this);
-                Toast.makeText(this, "value : " + value, Toast.LENGTH_SHORT).show();
                 sqlAccess.deleteConsumptionLogByDate(db, Long.valueOf(value));
                 ((DailyConsumptionFragment) mNavigationDrawerFragment.getCurrentFragment()).refreshFragmentView();
                 db.close();

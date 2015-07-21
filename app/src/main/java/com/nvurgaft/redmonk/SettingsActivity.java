@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 
 public class SettingsActivity extends PreferenceActivity {
@@ -24,12 +23,8 @@ public class SettingsActivity extends PreferenceActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
-        Toast.makeText(this, "Selected : " + item.toString(), Toast.LENGTH_SHORT).show();
-
         switch (item.getItemId()) {
             case 0:
-                //startActivity(new Intent(this, ShowSettingsActivity.class));
                 return true;
         }
         return false;
