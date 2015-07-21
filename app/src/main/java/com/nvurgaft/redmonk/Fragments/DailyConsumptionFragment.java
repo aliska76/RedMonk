@@ -17,7 +17,6 @@ import android.widget.ListView;
 import com.nvurgaft.redmonk.Adapters.DailyConsumptionCursorAdapter;
 import com.nvurgaft.redmonk.Dialogs.ConfirmDialog;
 import com.nvurgaft.redmonk.Dialogs.EditDailyConsumptionDialog;
-import com.nvurgaft.redmonk.Logic.AlarmManagerBroadcastReceiver;
 import com.nvurgaft.redmonk.Model.ConnectionManager;
 import com.nvurgaft.redmonk.Model.SqlAccess;
 import com.nvurgaft.redmonk.OnFragmentInteractionListener;
@@ -123,7 +122,7 @@ public class DailyConsumptionFragment extends Fragment implements View.OnClickLi
                 Bundle confirmDialogBundle = new Bundle();
                 confirmDialogBundle.putString("content", getString(R.string.confirm_delete_contact_text) + " for day " + logDayDate);
                 confirmDialogBundle.putString("identifier", String.valueOf(logDayDate));
-                confirmDialogBundle.putString("tag", "contactPrompt");
+                confirmDialogBundle.putString("tag", "consumptionPrompt");
                 confirmDialog.setArguments(confirmDialogBundle);
                 confirmDialog.show(getFragmentManager(), "ConfirmDialog");
                 return true;
@@ -171,8 +170,10 @@ public class DailyConsumptionFragment extends Fragment implements View.OnClickLi
 
     public void refreshFragmentView() {
         if (dailyConsumptionCursorAdapter != null) {
+            db = ConnectionManager.getConnection(getActivity());
             dailyConsumptionCursorAdapter.changeCursor(sqlAccess.getAllDailyConsumptionsCursor(db));
             dailyConsumptionCursorAdapter.notifyDataSetChanged();
+            db.close();
         }
     }
 

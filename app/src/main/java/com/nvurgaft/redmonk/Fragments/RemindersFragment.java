@@ -201,9 +201,10 @@ public class RemindersFragment extends Fragment implements View.OnClickListener 
 
     public void refreshFragmentView() {
         if (remindersCursorAdapter != null) {
+            db = ConnectionManager.getConnection(getActivity());
             remindersCursorAdapter.changeCursor(sqlAccess.getRemindersCursor(db));
             remindersCursorAdapter.notifyDataSetChanged();
+            db.close();
         }
     }
-
 }

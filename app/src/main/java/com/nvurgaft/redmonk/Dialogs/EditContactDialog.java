@@ -25,7 +25,7 @@ public class EditContactDialog extends DialogFragment {
     public interface NoticeDialogListener {
         public void onDialogPositiveClick(DialogFragment dialog, Contact contact, boolean isEdit);
 
-        public void onDialogNegativeClick(DialogFragment dialog);
+        public void onDialogNegativeClick(DialogFragment dialog, Contact contact, boolean isEdit);
     }
 
     @Override
@@ -94,7 +94,7 @@ public class EditContactDialog extends DialogFragment {
                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        mListener.onDialogNegativeClick(EditContactDialog.this);
+                        mListener.onDialogNegativeClick(EditContactDialog.this, null, false);
                     }
                 });
 

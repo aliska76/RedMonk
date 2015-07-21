@@ -266,7 +266,7 @@ public class SqlAccess extends SQLiteOpenHelper {
      * @param resolved
      */
     public void setResolved(SQLiteDatabase db, long r_id, boolean resolved) {
-        db.execSQL("UPDATE TABLE " + REMINDER_TABLE + " SET resolve = " + (resolved ? 0 : 1) + " WHERE " + RID + " = " + r_id + ";");
+        db.execSQL("UPDATE " + REMINDER_TABLE + " SET " + RESOLVED + "  = " + (resolved ? "'true'" : "'false'") + " WHERE " + RID + " = " + r_id + ";");
     }
 
     /************************************

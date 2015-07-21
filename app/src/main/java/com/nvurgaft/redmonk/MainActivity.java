@@ -40,9 +40,6 @@ public class MainActivity extends ActionBarActivity
     private Toolbar mToolbar;
 
     private SharedPreferences sharedPreferences;
-    private ContactsFragment contactsFragment;
-    private RemindersFragment remindersFragment;
-    private DailyConsumptionFragment dailyConsumptionFragment;
 
     protected SqlAccess sqlAccess;
     protected SQLiteDatabase db;
@@ -56,10 +53,6 @@ public class MainActivity extends ActionBarActivity
 
         db = ConnectionManager.getConnection(this);
         sqlAccess = new SqlAccess(this);
-
-        contactsFragment = new ContactsFragment();
-        remindersFragment = new RemindersFragment();
-        dailyConsumptionFragment = new DailyConsumptionFragment();
 
         sharedPreferences = getSharedPreferences(Values.PREFS, MODE_PRIVATE);
         String username = sharedPreferences.getString("username", "anon");
@@ -146,11 +139,9 @@ public class MainActivity extends ActionBarActivity
             Toast.makeText(this, "Contact updated : " + contact.toString(), Toast.LENGTH_SHORT).show();
         }
 
-        contactsFragment.refreshFragmentView();
-
+        ((ContactsFragment) mNavigationDrawerFragment.getCurrentFragment()).refreshFragmentView();
         db.close();
     }
-
     @Override
     public void onDialogPositiveClick(DialogFragment dialog, Reminder reminder, boolean isEdit) {
         db = ConnectionManager.getConnection(this);
@@ -163,8 +154,7 @@ public class MainActivity extends ActionBarActivity
             Toast.makeText(this, "Reminder updated : " + reminder.getTodo(), Toast.LENGTH_SHORT).show();
         }
 
-        remindersFragment.refreshFragmentView();
-
+        ((RemindersFragment) mNavigationDrawerFragment.getCurrentFragment()).refreshFragmentView();
         db.close();
     }
 
@@ -177,14 +167,12 @@ public class MainActivity extends ActionBarActivity
             Toast.makeText(this, "Daily consumption saved", Toast.LENGTH_SHORT).show(); // TODO: remove after testing
         } else {
             sqlAccess.updateDailyConsumptionByDate(db, dailyConsumption);
-            Toast.makeText(this, "Daily consumption updated : " + dailyConsumption.toString(), Toast.LENGTH_SHORT).show(); // TODO: remove after testing
+            Toast.makeText(this, "Daily consumption updated : " + dailyConsumption.toString(), Toast.LENGTH_SHORT).show();
         }
 
-        dailyConsumptionFragment.refreshFragmentView();
-
+        ((DailyConsumptionFragment) mNavigationDrawerFragment.getCurrentFragment()).refreshFragmentView();
         db.close();
     }
-
     /**
      * Accepts confirmation of confirm dialogs
      * @param dialog
@@ -196,14 +184,23 @@ public class MainActivity extends ActionBarActivity
             case "exitPrompt":
                 finish();
                 break;
+            case "consumptionPrompt":
+                db = ConnectionManager.getConnection(this);
+                Toast.makeText(this, "value : " + value, Toast.LENGTH_SHORT).show();
+                sqlAccess.removeContactByName(db, value);
+                ((DailyConsumptionFragment) mNavigationDrawerFragment.getCurrentFragment()).refreshFragmentView();
+                db.close();
+                break;
             case "contactPrompt":
                 db = ConnectionManager.getConnection(this);
                 sqlAccess.removeContactByName(db, value);
+                ((ContactsFragment) mNavigationDrawerFragment.getCurrentFragment()).refreshFragmentView();
                 db.close();
                 break;
             case "reminderPrompt":
                 db = ConnectionManager.getConnection(this);
                 sqlAccess.removeReminder(db, Integer.valueOf(value));
+                ((RemindersFragment) mNavigationDrawerFragment.getCurrentFragment()).refreshFragmentView();
                 db.close();
                 break;
             default:
@@ -212,12 +209,26 @@ public class MainActivity extends ActionBarActivity
 
     }
 
-    /**
-     * Accepts rejections of confirmed dialogs
-     * @param dialog
-     */
     @Override
     public void onDialogNegativeClick(DialogFragment dialog) {
-        Toast.makeText(this, "cancel", Toast.LENGTH_SHORT).show();
+
     }
+
+    @Override
+    public void onDialogNegativeClick(DialogFragment dialog, Reminder reminder, boolean isEdit) {
+        ((RemindersFragment) mNavigationDrawerFragment.getCurrentFragment()).refreshFragmentView();
+    }
+
+    @Override
+    public void onDialogNegativeClick(DialogFragment dialog, DailyConsumption dailyConsumption, boolean isEdit) {
+        ((DailyConsumptionFragment) mNavigationDrawerFragment.getCurrentFragment()).refreshFragmentView();
+    }
+
+    @Override
+    public void onDialogNegativeClick(DialogFragment dialog, Contact contact, boolean isEdit) {
+        ((ContactsFragment) mNavigationDrawerFragment.getCurrentFragment()).refreshFragmentView();
+    }
+
+
+
 }

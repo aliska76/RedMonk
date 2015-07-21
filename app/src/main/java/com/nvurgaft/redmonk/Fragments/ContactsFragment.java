@@ -186,8 +186,10 @@ public class ContactsFragment extends Fragment implements View.OnClickListener {
 
     public void refreshFragmentView() {
         if (contactsCursorAdapter != null) {
+            db = ConnectionManager.getConnection(getActivity());
             contactsCursorAdapter.changeCursor(sqlAccess.getContactsCursor(db));
             contactsCursorAdapter.notifyDataSetChanged();
+            db.close();
         }
     }
 

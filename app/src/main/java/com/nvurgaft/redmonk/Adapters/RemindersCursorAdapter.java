@@ -64,7 +64,7 @@ public class RemindersCursorAdapter extends CursorAdapter {
                     sqlAccess.setResolved(db, cCursr.getLong(1), true);
                     buttonView.setText(buttonView.getContext().getText(R.string.resolved));
                 } else {
-                    sqlAccess.setResolved(db, cCursr.getLong(2), true);
+                    sqlAccess.setResolved(db, cCursr.getLong(2), false);
                     buttonView.setText(buttonView.getContext().getText(R.string.unresolved));
                 }
                 db.close();

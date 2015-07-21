@@ -25,7 +25,7 @@ public class EditDailyConsumptionDialog extends DialogFragment {
     public interface NoticeDialogListener {
         public void onDialogPositiveClick(DialogFragment dialog, DailyConsumption dailyConsumption, boolean isEdit);
 
-        public void onDialogNegativeClick(DialogFragment dialog);
+        public void onDialogNegativeClick(DialogFragment dialog, DailyConsumption dailyConsumption, boolean isEdit);
     }
 
     @Override
@@ -40,7 +40,7 @@ public class EditDailyConsumptionDialog extends DialogFragment {
         fatsEditText = (EditText) dialogView.findViewById(R.id.fatsEditText);
 
         boolean isEdit = false;
-        long date = 0L;
+        long cDate = 0L;
         int calories = 0;
         int carbs = 0;
         int proteins = 0;
@@ -49,7 +49,7 @@ public class EditDailyConsumptionDialog extends DialogFragment {
         Bundle passedBundle = getArguments();
         if (passedBundle != null) {
             isEdit = passedBundle.getBoolean("isEdit", false);
-            date = passedBundle.getLong("date", 0);
+            cDate = passedBundle.getLong("date", 0);
             calories = passedBundle.getInt("calories", 0);
             carbs = passedBundle.getInt("carbs", 0);
             proteins = passedBundle.getInt("proteins", 0);
@@ -62,6 +62,8 @@ public class EditDailyConsumptionDialog extends DialogFragment {
         proteinsEditText.setText(String.valueOf(proteins));
         fatsEditText.setText(String.valueOf(fats));
 
+        final long fData = cDate;
+
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         if (isEdit) {
             builder.setMessage(R.string.dc_enter_dc);
@@ -72,7 +74,18 @@ public class EditDailyConsumptionDialog extends DialogFragment {
                 .setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        
+                        String cals = caloriesEditText.getText().toString();
+                        String carbs = carbsEditText.getText().toString();
+                        String prots = proteinsEditText.getText().toString();
+                        String fats = fatsEditText.getText().toString();
+
                         DailyConsumption dailyConsumption = new DailyConsumption();
+                        dailyConsumption.setDate(Long.valueOf(fData));
+                        dailyConsumption.setCalories(Integer.valueOf(cals));
+                        dailyConsumption.setCarbohydrates(Integer.valueOf(carbs));
+                        dailyConsumption.setProteins(Integer.valueOf(prots));
+                        dailyConsumption.setFats(Integer.valueOf(fats));
 
                         mListener.onDialogPositiveClick(EditDailyConsumptionDialog.this, dailyConsumption, action);
                     }
@@ -80,7 +93,7 @@ public class EditDailyConsumptionDialog extends DialogFragment {
                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        mListener.onDialogNegativeClick(EditDailyConsumptionDialog.this);
+                        mListener.onDialogNegativeClick(EditDailyConsumptionDialog.this, null, false);
                     }
                 });
 

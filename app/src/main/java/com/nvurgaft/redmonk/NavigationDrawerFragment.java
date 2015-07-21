@@ -74,6 +74,8 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
     private boolean mFromSavedInstanceState;
     private boolean mUserLearnedDrawer;
 
+    Fragment currentFragment;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -122,6 +124,14 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
         return mDrawerLayout;
     }
 
+    public Fragment getCurrentFragment() {
+        return currentFragment;
+    }
+
+    public void setCurrentFragment(Fragment cFragment) {
+        currentFragment = cFragment;
+    }
+
     @Override
     public void onNavigationDrawerItemSelected(int position) {
         selectItem(position);
@@ -144,6 +154,7 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
             default:
                 fragment = null;
         }
+        setCurrentFragment(fragment);
 
         if (fragment!=null) {
             sp.edit().putInt(LAST_FRAGMENT_USED, position);
