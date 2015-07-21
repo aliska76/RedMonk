@@ -21,7 +21,9 @@
         android:textColor="#ffffff"
         android:textSize="20sp"
         android:textStyle="bold|italic"
-        android:layout_below="@+id/callButton1" />
+        android:layout_below="@+id/callButton2"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
     <TextView
         android:id="@+id/thirdContactTextView"
         android:layout_width="wrap_content"
@@ -30,7 +32,9 @@
         android:textColor="#ffffff"
         android:textSize="20sp"
         android:textStyle="bold|italic"
-        android:layout_below="@+id/callButton2" />
+        android:layout_below="@+id/callButton3"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <Button
         android:layout_width="wrap_content"
@@ -46,9 +50,8 @@
         android:layout_height="wrap_content"
         android:id="@+id/callButton2"
         android:text="@string/call"
-        android:layout_below="@+id/callButton1"
-        android:layout_alignLeft="@+id/callButton3"
-        android:layout_alignStart="@+id/callButton3" />
+        android:layout_below="@+id/callButton3"
+        android:layout_centerHorizontal="true"/>
 
     <Button
         android:layout_width="wrap_content"
@@ -56,8 +59,7 @@
         android:id="@+id/callButton3"
         android:text="@string/call"
         android:layout_below="@+id/nameAndRoleTextView"
-        android:layout_alignLeft="@+id/callButton2"
-        android:layout_alignStart="@+id/callButton2" />
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:layout_width="wrap_content"

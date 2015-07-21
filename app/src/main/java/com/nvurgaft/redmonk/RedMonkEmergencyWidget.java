@@ -85,9 +85,6 @@ public class RedMonkEmergencyWidget extends AppWidgetProvider {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-
-        super.onReceive(context, intent);
-
         String cFirst = RedMonkEmergencyWidgetConfigureActivity.loadTitlePref(context, widgetId, "_first");
         String cSecond = RedMonkEmergencyWidgetConfigureActivity.loadTitlePref(context, widgetId, "_second");
         String cThird = RedMonkEmergencyWidgetConfigureActivity.loadTitlePref(context, widgetId, "_third");
@@ -110,5 +107,6 @@ public class RedMonkEmergencyWidget extends AppWidgetProvider {
             default:
                 Log.d(Values.LOG, "Invalid parameters to start call activity");
         }
+        super.onReceive(context, intent);
     }
 }
