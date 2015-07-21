@@ -13,6 +13,9 @@ import android.widget.EditText;
 import com.nvurgaft.redmonk.Entities.DailyConsumption;
 import com.nvurgaft.redmonk.R;
 
+import java.util.Calendar;
+import java.util.Date;
+
 /**
  * Created by Koby on 18-Jul-15.
  */
@@ -62,7 +65,8 @@ public class EditDailyConsumptionDialog extends DialogFragment {
         proteinsEditText.setText(String.valueOf(proteins));
         fatsEditText.setText(String.valueOf(fats));
 
-        final long fData = cDate;
+        final boolean fEdit = isEdit;
+        final long fDate = cDate;
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         if (isEdit) {
@@ -74,14 +78,24 @@ public class EditDailyConsumptionDialog extends DialogFragment {
                 .setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        
+
                         String cals = caloriesEditText.getText().toString();
                         String carbs = carbsEditText.getText().toString();
                         String prots = proteinsEditText.getText().toString();
                         String fats = fatsEditText.getText().toString();
 
                         DailyConsumption dailyConsumption = new DailyConsumption();
-                        dailyConsumption.setDate(Long.valueOf(fData));
+                        if (!fEdit) {
+                            Calendar cal = Calendar.getInstance();
+                            cal.setTime(new Date(System.currentTimeMillis()));
+                            cal.set(Calendar.HOUR_OF_DAY, 0);
+                            cal.set(Calendar.MINUTE, 0);
+                            cal.set(Calendar.SECOND, 0);
+                            cal.set(Calendar.MILLISECOND, 0);
+                            dailyConsumption.setDate(cal.getTimeInMillis());
+                        } else {
+                            dailyConsumption.setDate(fDate);
+                        }
                         dailyConsumption.setCalories(Integer.valueOf(cals));
                         dailyConsumption.setCarbohydrates(Integer.valueOf(carbs));
                         dailyConsumption.setProteins(Integer.valueOf(prots));

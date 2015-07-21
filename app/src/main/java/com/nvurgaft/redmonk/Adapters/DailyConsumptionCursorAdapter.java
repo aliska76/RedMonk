@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import com.nvurgaft.redmonk.R;
 
+import java.util.Date;
+
 /**
  * Created by Koby on 18-Jul-15.
  */
@@ -40,13 +42,13 @@ public class DailyConsumptionCursorAdapter extends CursorAdapter {
         int proteins = cursor.getInt(4);
         int fats = cursor.getInt(5);
 
-        dateTextView.setText("Date : " + date);
+        dateTextView.setText("Date : " + android.text.format.DateFormat.format("yyyy-MM-dd", new Date(Long.valueOf(date))));
         calorieTextView.setText("Total Calories : " + calories);
         calorieDescriptionTextView.setText("Carbohydrates : " + carbohydrates + " ,Proteins : " + proteins + " and Fats : " + fats);
 
         // daily description here
         StringBuilder sb = new StringBuilder();
-
+        sb.append(""); // TODO: complete this
         describer.setText(sb.toString());
     }
 

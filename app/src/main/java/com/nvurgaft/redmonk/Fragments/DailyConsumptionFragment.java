@@ -23,6 +23,8 @@ import com.nvurgaft.redmonk.OnFragmentInteractionListener;
 import com.nvurgaft.redmonk.R;
 import com.nvurgaft.redmonk.Values;
 
+import java.util.Date;
+
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
@@ -101,7 +103,7 @@ public class DailyConsumptionFragment extends Fragment implements View.OnClickLi
                 EditDailyConsumptionDialog editContactDialog = new EditDailyConsumptionDialog();
                 Bundle selectedContactBundle = new Bundle();
                 selectedContactBundle.putBoolean("isEdit", true);
-                selectedContactBundle.putLong("name", data.getLong(1));
+                selectedContactBundle.putLong("date", data.getLong(1));
                 selectedContactBundle.putInt("calories", data.getInt(2));
                 selectedContactBundle.putInt("carbs", data.getInt(3));
                 selectedContactBundle.putInt("proteins", data.getInt(4));
@@ -120,7 +122,8 @@ public class DailyConsumptionFragment extends Fragment implements View.OnClickLi
                 ConfirmDialog confirmDialog = new ConfirmDialog();
                 long logDayDate = data.getLong(1);
                 Bundle confirmDialogBundle = new Bundle();
-                confirmDialogBundle.putString("content", getString(R.string.confirm_delete_contact_text) + " for day " + logDayDate);
+                confirmDialogBundle.putString("content", getString(R.string.confirm_delete_contact_text) +
+                        " : " + android.text.format.DateFormat.format("yyyy-MM-dd", new Date(Long.valueOf(logDayDate))));
                 confirmDialogBundle.putString("identifier", String.valueOf(logDayDate));
                 confirmDialogBundle.putString("tag", "consumptionPrompt");
                 confirmDialog.setArguments(confirmDialogBundle);
@@ -131,7 +134,6 @@ public class DailyConsumptionFragment extends Fragment implements View.OnClickLi
 
         newDcButton = (Button) view.findViewById(R.id.dcNewLogButton);
         newDcButton.setOnClickListener(this);
-
         return view;
     }
 

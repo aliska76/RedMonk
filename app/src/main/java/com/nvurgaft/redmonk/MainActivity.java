@@ -187,7 +187,7 @@ public class MainActivity extends ActionBarActivity
             case "consumptionPrompt":
                 db = ConnectionManager.getConnection(this);
                 Toast.makeText(this, "value : " + value, Toast.LENGTH_SHORT).show();
-                sqlAccess.removeContactByName(db, value);
+                sqlAccess.deleteConsumptionLogByDate(db, Long.valueOf(value));
                 ((DailyConsumptionFragment) mNavigationDrawerFragment.getCurrentFragment()).refreshFragmentView();
                 db.close();
                 break;

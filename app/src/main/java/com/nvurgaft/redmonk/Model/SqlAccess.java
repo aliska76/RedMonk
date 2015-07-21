@@ -351,6 +351,21 @@ public class SqlAccess extends SQLiteOpenHelper {
         return db.rawQuery("SELECT * FROM " + DAILY_CONSUMPTION_TABLE + ";", null);
     }
 
+    /**
+     *  Deletes a consumption record using a date value
+     * @param db
+     * @param date
+     * @return
+     */
+    public int deleteConsumptionLogByDate(SQLiteDatabase db, long date) {
+        return db.delete(DAILY_CONSUMPTION_TABLE, DATE + " = '" + date + "'", null);
+    }
+
+    /**
+     *  Truncates the Consumptions logs table
+     * @param db
+     * @return
+     */
     public int deleteAllConsumptionLogs(SQLiteDatabase db) {
         return db.delete(DAILY_CONSUMPTION_TABLE, "1", null);
     }

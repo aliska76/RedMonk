@@ -5,4 +5,8 @@ package com.nvurgaft.redmonk.Logic;
  */
 public class Utils {
 
+    public String returnDateForUnixTime(long unixTime) {
+
+        return null;
+    }
 }
