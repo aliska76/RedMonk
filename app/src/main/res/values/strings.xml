@@ -65,7 +65,7 @@
     <string name="todo">Todo: </string>
 
     <!-- Drawer Menu Items -->
-    <string name="stats_drawer_item">My Stats</string>
+    <string name="stats_drawer_item">My Status</string>
     <string name="daily_consumption_drawer_item">Daily consumption</string>
     <string name="reminders_drawer_item">Reminders</string>
     <string name="contacts_drawer_item">Contacts</string>
