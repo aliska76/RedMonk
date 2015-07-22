@@ -16,7 +16,7 @@
     <string name="status_fragment_gender_male">Male</string>
     <string name="status_fragment_gender_female">Female</string>
     <string name="status_fragment_height">Your Height (in centimeters):</string>
-    <string name="status_fragment_weight">Your Weight (in centimeters):</string>
+    <string name="status_fragment_weight">Your Weight (in kilogram):</string>
 
     <!-- Daily Consumption Fragment -->
     <string name="dc_fragment_title">Daily Consumption Information</string>
