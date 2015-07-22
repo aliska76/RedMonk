@@ -16,7 +16,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
-            android:background="#09C"
             android:textColor="#ffffff"
             android:textSize="20sp"
             android:textStyle="bold|italic" />
@@ -28,8 +27,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/firstContactTextView"
-            android:layout_marginTop="15dp"
-            android:background="#09C"
+            android:layout_marginTop="18dp"
             android:textColor="#ffffff"
             android:textSize="20sp"
             android:textStyle="bold|italic" />
@@ -40,8 +38,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/thirdContactTextView"
-            android:layout_marginTop="15dp"
-            android:background="#09C"
+            android:layout_marginTop="18dp"
             android:textColor="#ffffff"
             android:textSize="20sp"
             android:textStyle="bold|italic" />
